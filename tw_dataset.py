@@ -18,7 +18,7 @@
 class tw_dataset:
     ## Initialize class
     ##    batch size := instances from database returned at once
-    def __init__(self, path, batch_size):
+    def __init__(self, batch_size):
         continue
 
     ## Returns next (available) batch, i.e. (input)
