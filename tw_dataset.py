@@ -33,7 +33,7 @@ class tw_dataset:
     ##             começar novamente o ciclo e continuar retornando os arquivos 
     ##             novamente
     def get_next_batch(self, restart = False):
-        continue
+        
 
     ## Receive information related to batch of last batch of tweets and
     ## update database
@@ -45,4 +45,4 @@ class tw_dataset:
     ##    Seja com um índice interno na classe registrando os tweets ou um
     ##    parâmetro que a função recebe com os índices de cada tweet, por ex.
     def update(self, labels):
-        continue
+        return
