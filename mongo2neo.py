@@ -16,7 +16,7 @@ query = {
 	] 
 }
 
-cursor = c.find(query, limit = 100)
+cursor = c.find(query, no_cursor_timeout = True)
 
 geolocator = Nominatim(timeout = 5)
 
@@ -36,9 +36,11 @@ for tweet in cursor:
 					location = geolocator.reverse("%f, %f" % (lat, lon))
 					break
 				except geopy.exc.GeocoderTimedOut:
+					print "GeocoderTimedOut"
 					time.sleep(1)
 					tries -= 1
 				except geopy.exc.QuotaExceeded:
+					print "QuotaExceeded"
 					time.sleep(10)
 
 	elif place != None:
@@ -53,11 +55,13 @@ for tweet in cursor:
 					location = geolocator.reverse("%f, %f" % (lat, lon))
 					break
 				except geopy.exc.GeocoderTimedOut:
+					print "GeocoderTimedOut"
 					time.sleep(1)
 					tries -= 1
 				except geopy.exc.QuotaExceeded:
+					print "QuotaExceeded"
 					time.sleep(10)
-	
+
 	if location != None:
 		tweet_node = Node("tweet", text = tweet['text'], user_id = tweet['user']['id_str'], label = 0.5, coordinates = [lat, lon], state = location.raw['address']['state'])
 		g.create(tweet_node)
