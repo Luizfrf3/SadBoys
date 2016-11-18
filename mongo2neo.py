@@ -36,9 +36,11 @@ for tweet in cursor:
 					location = geolocator.reverse("%f, %f" % (lat, lon))
 					break
 				except geopy.exc.GeocoderTimedOut:
+					print "GeocoderTimedOut"
 					time.sleep(1)
 					tries -= 1
 				except geopy.exc.QuotaExceeded:
+					print "QuotaExceeded"
 					time.sleep(10)
 
 	elif place != None:
