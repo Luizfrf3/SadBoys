@@ -59,5 +59,5 @@ for tweet in cursor:
 					time.sleep(10)
 	
 	if location != None:
-		tweet_node = """Node("tweet", text = %s, user_id = %s, label = 0.5, coordinates = [%f, %f], state = %s""" % (tweet['text'], tweet['user']['id_str'],lat, lon, location.raw['address']['state'])
+		tweet_node = """Node("tweet", text = "%s", user_id = %s, label = 0.5, coordinates = [%f, %f], state = "%s" """ % (tweet['text'], tweet['user']['id_str'],lat, lon, location.raw['address']['state'])
 		print(tweet_node)
