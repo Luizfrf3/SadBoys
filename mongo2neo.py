@@ -1,5 +1,6 @@
 import pymongo
 from py2neo import *
+from geopy import Nominatim
 
 m = pymongo.MongoClient()
 c = m.twitter.tweets
@@ -13,6 +14,8 @@ query = {
 	] 
 }
 
-conta = c.find(query)
+cursor = c.find(query, limit=20)
 
-print conta 
+for tweet in cursor:
+	coordinates = tweet['coordinates']
+	print coordinates
