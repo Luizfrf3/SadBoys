@@ -1,7 +1,9 @@
 import pymongo
 from py2neo import *
 from geopy import Nominatim
+import time
 
+g = Graph(bolt = False, password = "neo4j")
 m = pymongo.MongoClient()
 c = m.twitter.tweets
 
@@ -14,9 +16,9 @@ query = {
 	] 
 }
 
-cursor = c.find(query, limit=1000)
+cursor = c.find(query, limit = 100)
 
-geolocator = Nominatim(timeout=5)
+geolocator = Nominatim(timeout = 5)
 
 for tweet in cursor:
 	place = tweet['place']
@@ -24,17 +26,38 @@ for tweet in cursor:
 	location = None
 
 	if coordinates != None:
-		long = coordinates['coordinates'][0]
+		lon = coordinates['coordinates'][0]
 		lat = coordinates['coordinates'][1]
-		if -170 < long < -60 and 12 < lat < 72:
-			location = geolocator.reverse("%f, %f" % (lat, long), timeout = None)
-			if location.raw['address']['country'] == "United States of America":
-				print location.raw['address']['state']
-	
+		if -170 < lon < -60 and 12 < lat < 72:
+			tries = 3
+			while tries > 0:
+				try:
+					time.sleep(1)
+					location = geolocator.reverse("%f, %f" % (lat, lon))
+					break
+				except geopy.exc.GeocoderTimedOut:
+					time.sleep(1)
+					tries -= 1
+				except geopy.exc.QuotaExceeded:
+					time.sleep(10)
+
 	elif place != None:
 		place_coordinates = place['bounding_box']['coordinates']
-		long = (float(place_coordinates[0][0][0]) + float(place_coordinates[0][1][0])) / 2
+		lon = (float(place_coordinates[0][0][0]) + float(place_coordinates[0][1][0])) / 2
 		lat = (float(place_coordinates[0][0][1]) + float(place_coordinates[0][2][1])) / 2
-		if -170 < long < -60 and 12 < lat < 72 and place['country'] == "United States":
-                	location = geolocator.reverse("%f, %f" % (lat, long), timeout = None)
-			print location.raw['address']['state']
+		if -170 < lon < -60 and 12 < lat < 72 and place['country'] == "United States":
+			tries = 3
+			while tries > 0:
+				try:
+					time.sleep(1)
+					location = geolocator.reverse("%f, %f" % (lat, lon))
+					break
+				except geopy.exc.GeocoderTimedOut:
+					time.sleep(1)
+					tries -= 1
+				except geopy.exc.QuotaExceeded:
+					time.sleep(10)
+	
+	if location != None:
+		tweet_node = Node("tweet", text = tweet['text'], user_id = tweet['user']['id_str'], label = 0.5, coordinates = [lat, lon], state = location.raw['address']['state'])
+		g.create(tweet_node)
