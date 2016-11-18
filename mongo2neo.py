@@ -18,4 +18,4 @@ cursor = c.find(query, limit=20)
 
 for tweet in cursor:
 	coordinates = tweet['coordinates']
-	print coordinates
+	print tweets
