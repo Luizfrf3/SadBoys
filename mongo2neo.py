@@ -10,35 +10,31 @@ query = {
 	"$or": [ 
 		{ "place": { "$ne":None } }, 
 		{ "coordinates": { "$ne":None } }, 
-		{ "geo": { "$ne":None } } 
+		{ "geo": { "$ne":None } }
 	] 
 }
 
-cursor = c.find(query, limit=100)
+cursor = c.find(query, limit=1000)
 
-geolocator = Nominatim()
+geolocator = Nominatim(timeout=5)
 
-cont = 0
 for tweet in cursor:
 	place = tweet['place']
 	coordinates = tweet['coordinates']
 	location = None
+
 	if coordinates != None:
-		coordinates = coordinates['coordinates']
-		location = geolocator.reverse("%f, %f" % (coordinates[1], coordinates[0]))		
-	flag = 0
-	if location != None and place != None:
-		country = place['country']
-		if country == "United States":
-			cont += 1
-			flag = 1
-	if location != None:
-		country = location.raw['address']['country']
-		if flag == 0 and country == "United States of America":
-			cont += 1
-			flag = 1
-	if place != None:
-		country = place ['country']
-		if flag == 0 and country == "United States":
-			cont += 1
-print cont
+		long = coordinates['coordinates'][0]
+		lat = coordinates['coordinates'][1]
+		if -170 < long < -60 and 12 < lat < 72:
+			location = geolocator.reverse("%f, %f" % (lat, long), timeout = None)
+			if location.raw['address']['country'] == "United States of America":
+				print location.raw['address']['state']
+	
+	elif place != None:
+		place_coordinates = place['bounding_box']['coordinates']
+		long = (float(place_coordinates[0][0][0]) + float(place_coordinates[0][1][0])) / 2
+		lat = (float(place_coordinates[0][0][1]) + float(place_coordinates[0][2][1])) / 2
+		if -170 < long < -60 and 12 < lat < 72 and place['country'] == "United States":
+                	location = geolocator.reverse("%f, %f" % (lat, long), timeout = None)
+			print location.raw['address']['state']
