@@ -4,15 +4,6 @@ from py2neo import *
 m = pymongo.MongoClient()
 c = m.twitter.tweets
 
-query = { 
-	'lang': 'en', 
-	'$or': [ 
-		{ 'geo': { '$ne': 'null' } }, 
-		{ 'place': { '$ne':'null' } }, 
-		{ 'coordinates': { '$ne':'null' } }
-	]
-}
-
-conta = c.find(query).count()
+conta = c.find({ "lang": "en", "$or": [ { "place": { "$ne":None } }, { "coordinates": { "$ne":None } }, { "geo": { "$ne":None } } ] })
 
 print conta 
