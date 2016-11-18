@@ -16,7 +16,7 @@ query = {
 	] 
 }
 
-cursor = c.find(query)
+cursor = c.find(query, no_cursor_timeout = True)
 
 geolocator = Nominatim(timeout = 5)
 
