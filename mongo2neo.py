@@ -1,6 +1,6 @@
 import pymongo
 from py2neo import *
-from geopy import Nominatim
+from geopy import Nominatim, exc
 import time
 
 g = Graph(bolt = False, password = "neo4j")
@@ -35,11 +35,11 @@ for tweet in cursor:
 					time.sleep(1)
 					location = geolocator.reverse("%f, %f" % (lat, lon))
 					break
-				except geopy.exc.GeocoderTimedOut:
+				except exc.GeocoderTimedOut:
 					print "GeocoderTimedOut"
 					time.sleep(1)
 					tries -= 1
-				except geopy.exc.QuotaExceeded:
+				except exc.QuotaExceeded:
 					print "QuotaExceeded"
 					time.sleep(10)
 
@@ -54,11 +54,11 @@ for tweet in cursor:
 					time.sleep(1)
 					location = geolocator.reverse("%f, %f" % (lat, lon))
 					break
-				except geopy.exc.GeocoderTimedOut:
+				except exc.GeocoderTimedOut:
 					print "GeocoderTimedOut"
 					time.sleep(1)
 					tries -= 1
-				except geopy.exc.QuotaExceeded:
+				except exc.QuotaExceeded:
 					print "QuotaExceeded"
 					time.sleep(10)
 
