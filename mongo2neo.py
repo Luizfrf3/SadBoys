@@ -67,7 +67,7 @@ for tweet in cursor:
 
 	if location != None:
 		if 'address' in location.raw.keys() and 'state' in location.raw['address'].keys():
-			tweet_node = Node("tweet", text = tweet['text'], user_id = tweet['user']['id_str'], label = 0.5, coordinates = [lat, lon], state = location.raw['address']['state'])
+			tweet_node = Node("tweet", text = tweet['text'], user_id = tweet['user']['id_str'], label = 0.5, coordinates = [lat, lon], state = location.raw['address']['state'], created_at = tweet['created_at'])
 			g.create(tweet_node)
 		else:
 			print "Erro address/state"
