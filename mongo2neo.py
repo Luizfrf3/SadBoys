@@ -1,7 +1,7 @@
 import pymongo
 from py2neo import *
 from geopy import Nominatim
-from geopy.exc import GeocoderTimedOut, QuotaExceeded
+from geopy.exc import GeocoderTimedOut, GeocoderQuotaExceeded
 import time
 from py2neo.packages.httpstream import http
 http.socket_timeout = 9999
@@ -42,7 +42,7 @@ for tweet in cursor:
 					print "GeocoderTimedOut"
 					time.sleep(1)
 					tries -= 1
-				except QuotaExceeded as e:
+				except GeocoderQuotaExceeded as e:
 					print "QuotaExceeded"
 					time.sleep(10)
 
@@ -61,7 +61,7 @@ for tweet in cursor:
 					print "GeocoderTimedOut"
 					time.sleep(1)
 					tries -= 1
-				except QuotaExceeded as e:
+				except GeocoderQuotaExceeded as e:
 					print "QuotaExceeded"
 					time.sleep(10)
 
