@@ -25,7 +25,7 @@ geolocator = Nominatim(timeout = 5)
 
 i = 1
 for tweet in cursor:
-	if i > 17656:
+	if i > 0:
 		place = tweet['place']
 		coordinates = tweet['coordinates']
 		location = None
@@ -81,4 +81,5 @@ for tweet in cursor:
 					g.create(tweet_node)
 			else:
 				print "Erro address/state"
+	print i
 	i += 1
