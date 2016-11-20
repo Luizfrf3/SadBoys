@@ -25,7 +25,7 @@ geolocator = Nominatim(timeout = 5)
 
 i = 1
 for tweet in cursor:
-	if i > 0:
+	if i > 34310:
 		place = tweet['place']
 		coordinates = tweet['coordinates']
 		location = None
@@ -52,7 +52,7 @@ for tweet in cursor:
 						time.sleep(30)
 
 		elif place != None:
-			if 'bounding_box' in place.keys() and 'coordinates' in place['bounding_box'].keys():
+			if 'bounding_box' in place.keys() and place['bounding_box'] != None and 'coordinates' in place['bounding_box'].keys():
 				place_coordinates = place['bounding_box']['coordinates']
 				lon = (float(place_coordinates[0][0][0]) + float(place_coordinates[0][1][0])) / 2
 				lat = (float(place_coordinates[0][0][1]) + float(place_coordinates[0][2][1])) / 2
