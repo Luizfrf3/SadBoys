@@ -23,9 +23,11 @@ cursor = c.find(query, no_cursor_timeout = True)
 
 geolocator = Nominatim(timeout = 5)
 
+offset = 0
+
 i = 1
 for tweet in cursor:
-	if i > 34310:
+	if i > offset:
 		place = tweet['place']
 		coordinates = tweet['coordinates']
 		location = None
