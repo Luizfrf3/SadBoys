@@ -30,7 +30,7 @@ class tw_dataset:
 
         query = "match (n:tweet) return max(length(n.text)) as max_len"
 
-        self.max_len_phrase = int(self.g.run(query).data()['max_len'])
+        self.max_len_text = int(self.g.run(query).data()[0]['max_len'])
 
         query = "match (n:tweet) return n, ID(n) as id"
 
