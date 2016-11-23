@@ -26,10 +26,10 @@ class tr_dataset:
     def __init__(self, batch_size):
         self.batch_size = batch_size
         self.pointer = 0
-        self.g = Graph(password="123456")
-        #self.g = Graph(bolt=False, password="neo4j")
+        self.g = Graph(password = "123456")
+        #self.g = Graph(bolt = False, password = "neo4j")
 
-        query = "match(n) return n"
+        query = "match (n) return n"
         self.data = self.g.run(query).data()
 
         self.max_len_phrase = max(len(x['n']['frase']) for x in self.data)
@@ -52,8 +52,8 @@ class tr_dataset:
         if restart == True:
             self.pointer = 0
 
-        input = np.chararray(self.batch_size, self.max_len_phrase, unicode=True)
-        labels = np.ndarray(shape=(self.batch_size), dtype=np.float64)
+        input = np.chararray(self.batch_size, self.max_len_phrase, unicode = True)
+        labels = np.ndarray(shape = (self.batch_size), dtype = np.float64)
 
         i = self.pointer
         k = 0

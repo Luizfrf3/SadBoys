@@ -15,11 +15,26 @@
 
 """
 
+from py2neo import *
+import numpy as np
+
 class tw_dataset:
     ## Initialize class
     ##    batch size := instances from database returned at once
     def __init__(self, batch_size):
-        continue
+        packages.httpstream.http.socket_timeout = 9999
+        self.batch_size = batch_size
+        self.pointer = 0
+        #self.g = Graph(password = "123456")
+        self.g = Graph(bolt = False, password = "neo4j")
+
+        query = "match (n:tweet) return max(length(n.text)) as max_len"
+
+        self.max_len_phrase = int(self.g.run(query).data()['max_len'])
+
+        query = "match (n:tweet) return n, ID(n) as id"
+
+        self.cursor = self.g.run(query)
 
     ## Returns next (available) batch, i.e. (input)
     ## 
@@ -33,7 +48,7 @@ class tw_dataset:
     ##             começar novamente o ciclo e continuar retornando os arquivos 
     ##             novamente
     def get_next_batch(self, restart = False):
-        
+        return
 
     ## Receive information related to batch of last batch of tweets and
     ## update database
