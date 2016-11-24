@@ -13,15 +13,13 @@ for user in cursor:
 	query = "match (t:tweet) where t.user_id = '%s' return count(t) as n" % s
 	c = g.run(query)
 	if c['n'] > 0:
-		fr = user['friends']
-		fo = user['followers']
 		userNode = Node(
 			"user", 
 			name = user['name'],
 			id = user['id_str'],
 			profile_image = user['profile_image_url'],
-			friends = fr,
-			followers = fo,
+			friends = user['friends'],
+			followers = user['followers'],
 			label = 0.5
 		)
 		g.create(userNode)
