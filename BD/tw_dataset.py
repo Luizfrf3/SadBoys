@@ -16,11 +16,14 @@
 
 from py2neo import *
 import numpy as np
+from py2neo.packages.httpstream import http
 
 class tw_dataset:
     ## Initialize class
     ##    batch size := instances from database returned at once
     def __init__(self, batch_size):
+
+        http.socket_timeout = 9999
 
         self.batch_size = batch_size
         self.pointer = 1
@@ -76,8 +79,6 @@ class tw_dataset:
 
         self.pointer += k
 
-        print self.ids
-
         return tweets
 
     ## Receive information related to batch of last batch of tweets and
@@ -90,9 +91,14 @@ class tw_dataset:
     ##    Seja com um índice interno na classe registrando os tweets ou um
     ##    parâmetro que a função recebe com os índices de cada tweet, por ex.
     def update(self, labels):
+        
         if self.return_size <= 0:
-            return None
+            return False
 
-        x
+        k = 0
+        while k < self.return_size:
+            query = "match (t:tweet) where id(t) = %s set t.label = %f" % (self.ids[k], labels[k])
+            self.g.run(query)
+            k += 1
 
-        return 
+        return True
