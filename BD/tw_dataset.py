@@ -8,7 +8,6 @@
 
     BD description:
                     Input: String of 256 char;
-                    Label: 0, 1, 2.
 
     OBS: Pode alterar as assinaturas ou os comentários, só manter as funções
          da API que tá tranquilo.
@@ -22,19 +21,28 @@ class tw_dataset:
     ## Initialize class
     ##    batch size := instances from database returned at once
     def __init__(self, batch_size):
+
         packages.httpstream.http.socket_timeout = 9999
         self.batch_size = batch_size
-        self.pointer = 0
+        self.pointer = 1
+        self.return_size = 0
+
         #self.g = Graph(password = "123456")
         self.g = Graph(bolt = False, password = "neo4j")
 
-        query = "match (n:tweet) return max(length(n.text)) as max_len"
+        query = "match (t:tweet) return max(length(t.text)) as max_len"
 
         self.max_len_text = int(self.g.run(query).data()[0]['max_len'])
 
-        query = "match (n:tweet) return n, ID(n) as id"
+        query = "match (t:tweet) return count(t) as size"
+
+        self.size = int(g.run(query).data()[0]['size'])
+
+        query = "match (t:tweet) return t, ID(t) as id"
 
         self.cursor = self.g.run(query)
+
+        self.ids = []
 
     ## Returns next (available) batch, i.e. (input)
     ## 
@@ -48,7 +56,26 @@ class tw_dataset:
     ##             começar novamente o ciclo e continuar retornando os arquivos 
     ##             novamente
     def get_next_batch(self, restart = False):
-        return
+
+        if restart == True:
+            self.pointer = 1
+
+        if self.batch_size + self.pointer - 1 <= self.size:
+            self.return_size = batch_size
+        else:
+            self.return_size = self.size - self.pointer + 1
+            
+        tweets = np.chararray(self.return_size, self.max_len_phrase, unicode = True)
+
+        k = 0
+        while k < self.return_size:
+            tweets[k] = self.cursor.next()['t']['text']
+            self.ids[k] = self.cursor.next()['t']['id']
+            k += 1
+
+        self.pointer += 1
+
+        return tweets
 
     ## Receive information related to batch of last batch of tweets and
     ## update database
