@@ -65,6 +65,7 @@ class tw_dataset:
             self.return_size = self.size - self.pointer + 1
             
         tweets = np.chararray(self.return_size, self.max_len_text, unicode = True)
+        self.ids = np.chararray(self.return_size, self.max_len_text, unicode = True)
 
         k = 0
         while k < self.return_size:
