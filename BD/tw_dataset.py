@@ -25,7 +25,7 @@ class tw_dataset:
         self.batch_size = batch_size
         self.pointer = 1
         self.return_size = 0
-        print self.batch_size
+
         #self.g = Graph(password = "123456")
         self.g = Graph(bolt = False, password = "neo4j")
 
@@ -64,7 +64,7 @@ class tw_dataset:
         else:
             self.return_size = self.size - self.pointer + 1
             
-        tweets = np.chararray(self.return_size, self.max_len_phrase, unicode = True)
+        tweets = np.chararray(self.return_size, self.max_len_text, unicode = True)
 
         k = 0
         while k < self.return_size:
