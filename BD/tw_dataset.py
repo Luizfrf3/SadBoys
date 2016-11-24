@@ -59,7 +59,7 @@ class tw_dataset:
         if restart == True:
             self.pointer = 1
 
-        if self.batch_size + self.pointer - 1 <= 7:
+        if self.batch_size + self.pointer - 1 <= 8:
             self.return_size = self.batch_size
         else:
             self.return_size = self.size - self.pointer + 1
