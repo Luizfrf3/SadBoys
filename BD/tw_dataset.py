@@ -60,7 +60,7 @@ class tw_dataset:
             self.pointer = 1
 
         if self.batch_size + self.pointer - 1 <= self.size:
-            self.return_size = batch_size
+            self.return_size = self.batch_size
         else:
             self.return_size = self.size - self.pointer + 1
             
