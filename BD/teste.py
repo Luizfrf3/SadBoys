@@ -7,5 +7,5 @@ tweets = banco.get_next_batch()
 print tweets
 
 tweets = banco.get_next_batch()
-
+print len(tweets)
 print tweets

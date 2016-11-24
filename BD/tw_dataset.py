@@ -62,7 +62,7 @@ class tw_dataset:
         if self.batch_size + self.pointer - 1 <= 5:
             self.return_size = self.batch_size
         else:
-            self.return_size = self.size - self.pointer + 1
+            self.return_size = 5 - self.pointer + 1
             
         tweets = np.chararray(self.return_size, self.max_len_text, unicode = True)
         self.ids = np.chararray(self.return_size, self.max_len_text, unicode = True)
