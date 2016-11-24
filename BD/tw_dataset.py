@@ -59,7 +59,7 @@ class tw_dataset:
         if restart == True:
             self.pointer = 1
 
-        if self.batch_size + self.pointer - 1 <= 8:
+        if self.batch_size + self.pointer - 1 <= 5:
             self.return_size = self.batch_size
         else:
             self.return_size = self.size - self.pointer + 1
@@ -74,7 +74,7 @@ class tw_dataset:
             self.ids[k] = t['id']
             k += 1
 
-        self.pointer += 1
+        self.pointer += k
 
         return tweets
 
