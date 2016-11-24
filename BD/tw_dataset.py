@@ -69,8 +69,8 @@ class tw_dataset:
 
         k = 0
         while k < self.return_size:
-            t = self.cursor.next()['t']
-            tweets[k] = t['text']
+            t = self.cursor.next()
+            tweets[k] = t['t']['text']
             self.ids[k] = t['id']
             k += 1
 
@@ -90,4 +90,9 @@ class tw_dataset:
     ##    Seja com um índice interno na classe registrando os tweets ou um
     ##    parâmetro que a função recebe com os índices de cada tweet, por ex.
     def update(self, labels):
-        return
+        if self.return_size <= 0:
+            return None
+
+        x
+
+        return 
