@@ -16,10 +16,12 @@ from keras.utils import np_utils
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation, Embedding
 from keras.layers import LSTM, SimpleRNN, GRU
+import sys
 
 import tokenizer
 
-# from db import tw_dataset
+sys.path.insert(0, '../')
+from BD import tw_dataset
 
 def main():
     ## recover model
