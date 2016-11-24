@@ -22,11 +22,10 @@ class tw_dataset:
     ##    batch size := instances from database returned at once
     def __init__(self, batch_size):
 
-        packages.httpstream.http.socket_timeout = 9999
         self.batch_size = batch_size
         self.pointer = 1
         self.return_size = 0
-
+        print self.batch_size
         #self.g = Graph(password = "123456")
         self.g = Graph(bolt = False, password = "neo4j")
 
