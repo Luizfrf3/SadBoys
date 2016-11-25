@@ -1,3 +1,4 @@
+# Inicializa o banco com os dados dos filmes
 from py2neo import *
 
 g = Graph(password="123456")
