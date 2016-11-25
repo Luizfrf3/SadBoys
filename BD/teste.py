@@ -1,7 +1,7 @@
 import tw_dataset as db
 
-banco = db.tw_dataset(100)
+banco = db.tw_dataset(10)
 
 tweets = banco.get_next_batch()
 
-print len(tweets)
+print tweets
