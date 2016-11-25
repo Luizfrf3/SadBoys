@@ -7,7 +7,7 @@
 
     BD description:
                     Input: String of 256 char;
-                    Label: 0, 1, 2.
+                    Label: Float 0 - 1
 
     OBS: Pode alterar as assinaturas ou os comentários, só manter as funções
          da API que tá tranquilo.
@@ -41,12 +41,6 @@ class tr_dataset:
     ##         input  = np.chararray(shape=(len(batch)), itemsize=140)
     ##         labels = np.ndarray(shape=(len(batch), 2),
     ##                             dtype=np.uint8)
-    ##
-    ##    dicas: - verificar se o que está retornando existe (x is None)):
-    ##           - escolher queries de maneira randômica (mas sem repetir)
-    ##           - caso o banco de dados tenha finalizado os arquivos,
-    ##             começar novamente o ciclo e continuar retornando os arquivos 
-    ##             novamente
     def get_next_batch(self, restart = False):
 
         if restart == True:

@@ -40,7 +40,7 @@ class tw_dataset:
 
         self.size = int(self.g.run(query).data()[0]['size'])
 
-        query = "match (t:tweet) return t, ID(t) as id"
+        query = "match (t:tweet) return t.text as text, id(t) as id"
 
         self.cursor = self.g.run(query)
 
@@ -73,7 +73,7 @@ class tw_dataset:
         k = 0
         while k < self.return_size:
             t = self.cursor.next()
-            tweets[k] = t['t']['text']
+            tweets[k] = t['text']
             self.ids[k] = t['id']
             k += 1
 
@@ -91,7 +91,7 @@ class tw_dataset:
     ##    Seja com um índice interno na classe registrando os tweets ou um
     ##    parâmetro que a função recebe com os índices de cada tweet, por ex.
     def update(self, labels):
-        
+
         if self.return_size <= 0:
             return False
 
@@ -102,3 +102,6 @@ class tw_dataset:
             k += 1
 
         return True
+
+    def finished(self):
+        return self.pointer > self.size
