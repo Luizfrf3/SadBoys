@@ -40,7 +40,7 @@ class tw_dataset:
 
         self.size = int(self.g.run(query).data()[0]['size'])
 
-        query = "match (t:tweet) return t.text as text, ID(t) as id"
+        query = "match (t:tweet) return t.text as text, id(t) as id"
 
         self.cursor = self.g.run(query)
 
