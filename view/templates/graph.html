@@ -1,0 +1,90 @@
+{% extends "header.html" %}
+
+{% block header %}
+    <script src="static/lib/js/vis.js"></script>
+    <script src="static/lib/js/Chart.js"></script>
+    <link rel="stylesheet" href="static/lib/css/vis.css" type="text/css"/>
+    <link rel="stylesheet" href="static/css/graph.css" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <ul id="tabs" class="nav nav-tabs navbar-center" data-tabs="tabs">
+            <li class="active">
+                <a href="#graph" data-toggle="tab">
+                    Graph
+                </a>
+            </li>
+            <li>
+                <a href="#selectedNode" data-toggle="tab">
+                    Node Statistics
+                </a>
+            </li>
+        </ul>
+        <div id="my-tab-content" class="tab-content">
+            <div class="tab-pane active" id="graph">
+                <div class="col-md-10">
+                    <div id="sadboysgraph"></div>
+                </div>
+                <div class='col-md-2'>
+                    <div class="nodeContent"><h4>Node Content:</h4>
+                        <pre id="nodeContent"></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="selectedNode">
+                <canvas id="myChart" width="100" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $('#tabs').tab();
+    });
+</script>
+<script src="static/js/graph-chart.js" type="text/javascript"></script>
+<script>
+    // This is just for trying showing graphics (something else)
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+{% endblock %}
