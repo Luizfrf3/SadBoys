@@ -40,7 +40,7 @@ class tw_dataset:
 
         self.size = int(self.g.run(query).data()[0]['size'])
 
-        query = "match (t:tweet) return t, ID(t) as id"
+        query = "match (t:tweet) return t.text as text, ID(t) as id"
 
         self.cursor = self.g.run(query)
 
@@ -73,7 +73,7 @@ class tw_dataset:
         k = 0
         while k < self.return_size:
             t = self.cursor.next()
-            tweets[k] = t['t']['text']
+            tweets[k] = t['text']
             self.ids[k] = t['id']
             k += 1
 
