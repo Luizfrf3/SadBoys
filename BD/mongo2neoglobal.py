@@ -11,7 +11,7 @@ query = {
 	"lang": "en"
 }
 
-cursor = c.find(query, no_cursor_timeout = True)
+cursor = c.find(query, no_cursor_timeout = True)[0:500000]
 
 i = 1
 for tweet in cursor:
