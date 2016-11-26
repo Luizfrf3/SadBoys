@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
+{% extends "header.html" %}
+
+{% block header %}
     <meta charset="utf-8">
     <title>Heatmap</title>
     <style>
@@ -36,10 +36,11 @@
         z-index: 5;
       }
     </style>
-  </head>
+{% endblock %}
 
-  <body>
-    <div id="floating-panel">
+
+{% block content %}
+    <div>
       <button onclick="toggleHeatmap()">Toggle Heatmap</button>
       <button onclick="changeGradient()">Change gradient</button>
       <button onclick="changeRadius()">Change radius</button>
@@ -829,5 +830,5 @@ function getPoints() {
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAv0u-jKOeQ0H7vJyFFhq6At3_AVeZr0bM&signed_in=true&libraries=visualization&callback=initMap">
     </script>
-  </body>
-</html>
+
+{% endblock %}
