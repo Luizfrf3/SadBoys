@@ -44,4 +44,5 @@ query = {
 cursor = d.find(query)
 
 for user in cursor:
-	g.run("match (u1:userglobal) match (u2:userglobal) where u1.id = {uid} and u2.id in {followers} create (u2)-[:followsglobal]->(u1)", uid = user['id_str'], followers = [str(x['id']) for x in user['followers']])
+	if 'followers' in user.keys() and user['followers'] != None:
+		g.run("match (u1:userglobal) match (u2:userglobal) where u1.id = {uid} and u2.id in {followers} create (u2)-[:followsglobal]->(u1)", uid = user['id_str'], followers = [str(x['id']) for x in user['followers']])
