@@ -9,7 +9,6 @@ g = Graph(bolt = False, password = "neo4j")
 query = "match (t:tweet) return collect(distinct t.user_id) as ids"
 
 idlist = g.run(query).next()['ids']
-idset = set(str(x) for x in idlist)
 
 query = {
 	'id_str': { '$in': idlist }

@@ -9,7 +9,6 @@ g = Graph(bolt = False, password = "neo4j")
 query = "match (t:tweetglobal) return collect(distinct t.user_id) as ids"
 
 idlist = g.run(query).next()['ids']
-idset = set(str(x) for x in idlist)
 
 query = {
 	'id_str': { '$in': idlist }
@@ -22,7 +21,7 @@ for user in cursor:
 	userNode = Node(
 		"userglobal", 
 		name = user['name'],
-		screen_name = user['screen_name']
+		screen_name = user['screen_name'],
 		id = user['id_str'],
 		profile_image = user['profile_image_url'],
 		profile_image_https = user['profile_image_url_https'],
