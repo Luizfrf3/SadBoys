@@ -16,5 +16,6 @@ cursor = c.find(query, no_cursor_timeout = True)[0:500000]
 i = 1
 for tweet in cursor:
 	tweet_node = Node("tweetglobal", text = tweet['text'], user_id = tweet['user']['id_str'], label = 0.5, created_at = tweet['created_at'], tweet_id = tweet['id_str'])
+	g.create(tweet_node)
 	print i
 	i += 1
