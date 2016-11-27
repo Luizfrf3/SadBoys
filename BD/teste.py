@@ -1,13 +1,11 @@
-import graph_dataset as db
+import heatmap_dataset as db
 
-banco = db.graph_dataset()
+banco = db.heatmap_dataset()
 
-user_id = banco.getUserID('justinbieber')
-
-print user_id
-
-data, followers = banco.getFollowers(user_id)
+data = banco.getStateData('New York')
 
 print data
 
-print followers
+tweets = getTweets()
+
+print tweets[0:10]
