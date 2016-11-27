@@ -10,8 +10,10 @@ class heatmap_dataset:
 
 	def getStateData(self, state):
 
-		query = ""
+		query = "match (s:state) where s.name = '%s' return s.avg_label as avg_l, s.rate as suicide_rate, s.episode_18_ as depressive_percentage, s.tought_18_ as suicide_percentage" % (state)
 		cursor = self.g.run(query)
+
+		return cursor.data()[0]
 
 	def getTweets(self):
 
