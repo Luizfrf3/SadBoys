@@ -8,4 +8,4 @@ print data
 
 tweets = banco.getTweets()
 
-print tweets[0:10]
+print len(tweets)
