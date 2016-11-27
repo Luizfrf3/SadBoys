@@ -45,7 +45,7 @@ def generate_nodes(n_id ,n_nodes):
         if(n_id == i):
             node['size'] = 15
         else:
-            node['size'] = group
+            node['size'] = 8
         node['group'] = group
         node['attributes'] = {}
 
