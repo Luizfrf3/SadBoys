@@ -2,7 +2,7 @@ import graph_dataset as db
 
 banco = db.graph_dataset()
 
-user_id = banco.getUserID('screen_name')
+user_id = banco.getUserID('justinbieber')
 
 print user_id
 
