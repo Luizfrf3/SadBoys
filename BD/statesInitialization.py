@@ -47,6 +47,8 @@ for state in states:
 
 print (states)
 
+print ([state for state in states])
+
 i = 1
 
 for entry in states:
@@ -68,6 +70,22 @@ for entry in states:
 	g.create(stateNode)
 	print (i)
 	i += 1
+
+query = """
+match (t:tweet) 
+match (s:state) 
+where s.name = t.state 
+create (s)-[:has]->(t)
+"""
+g.run(query)
+
+query = """
+match (s:state)-[:has]->(t:tweet)
+with s, avg(t.label) as avg_l
+set s.avg_label = avg_l
+"""
+
+g.run(query)
 
 
 
