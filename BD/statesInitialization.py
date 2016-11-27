@@ -1,6 +1,6 @@
 from py2neo import *
 import csv
-#g = Graph(password="123")
+g = Graph(password="123")
 #g = Graph(bolt=False, password="neo4j")
 
 
@@ -29,6 +29,8 @@ for name in fPath:
 			for l in reader:
 				for field in l:
 					if field != 'State':
+						print(name+':'+field)
+						print(l[field])
 						states[l['State']][name+':'+field] = l[field] 
 	
 print (states)
@@ -44,6 +46,33 @@ for state in states:
 		print(field+": "+str(states[state][field]))
 
 print (states)
+
+i = 1
+
+for entry in states:
+	state = states[entry]
+	stateNode = Node(
+		"state", 
+		name = entry,
+		position = state['Position'],
+		rate = state['Rate'],
+		episode_18_ = state['episode:18-'],
+		episode_12_17 = state['episode:12-17'],
+		episode_18_25 = state['episode:18-25'],
+		episode_26_ = state['episode:26-'],
+		tought_18_ = state['tought:18-'],
+		tought_18_25 = state['tought:18-25'],
+		tought_26_ = state['tought:26-'],
+		avg_label = 0.5
+	)
+	g.create(stateNode)
+	print (i)
+	i += 1
+
+
+
+
+
 
 
 
