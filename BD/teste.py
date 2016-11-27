@@ -1,7 +1,13 @@
-import tw_dataset as db
+import graph_dataset as db
 
-banco = db.tw_dataset(10)
+banco = db.graph_dataset()
 
-tweets = banco.get_next_batch()
+user_id = banco.getUserID('screen_name')
 
-print tweets
+print user_id
+
+data, followers = banco.getFollowers(user_id)
+
+print data
+
+print followers
