@@ -6,6 +6,6 @@ data = banco.getStateData('New York')
 
 print data
 
-tweets = getTweets()
+tweets = banco.getTweets()
 
 print tweets[0:10]
