@@ -2,7 +2,7 @@ from py2neo import *
 import numpy as np
 from py2neo.packages.httpstream import http
 
-class heatmap_dataset:
+class graph_dataset:
 	def __init__(self):
 
 		http.socket_timeout = 9999
