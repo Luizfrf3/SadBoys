@@ -13,7 +13,7 @@ class graph_dataset:
 		query = "match (u:userglobal) where u.screen_name = '%s' return u.id as id" % (screen_name)
 		cursor = self.g.run(query)
 
-		return cursor.data()[0]['id']
+		return cursor.data()['id']
 
 	def getFollowers(self, user_id):
 
