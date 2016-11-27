@@ -26,8 +26,7 @@ for user in cursor:
 		profile_image = user['profile_image_url'],
 		profile_image_https = user['profile_image_url_https'],
 		label = 0.5,
-		description = user['description'],
-		favorites = ['favourites_count']
+		description = user['description']
 	)
 	g.create(userNode)
 	print i
