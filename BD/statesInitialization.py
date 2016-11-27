@@ -1,4 +1,3 @@
-# Inicializa o banco com os dados dos filmes
 from py2neo import *
 import csv
 #g = Graph(password="123")
