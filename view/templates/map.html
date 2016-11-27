@@ -1,50 +1,17 @@
 {% extends "header.html" %}
 
 {% block header %}
-    <meta charset="utf-8">
     <title>Heatmap</title>
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-#floating-panel {
-  position: absolute;
-  top: 10px;
-  left: 25%;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-  text-align: center;
-  font-family: 'Roboto','sans-serif';
-  line-height: 30px;
-  padding-left: 10px;
-}
-
-      #floating-panel {
-        background-color: #fff;
-        border: 1px solid #999;
-        left: 25%;
-        padding: 5px;
-        position: absolute;
-        top: 10px;
-        z-index: 5;
-      }
-    </style>
+    <link rel="stylesheet" href="static/css/map.css" type="text/css"/>
 {% endblock %}
 
 
 {% block content %}
-    <div>
-      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
-      <button onclick="changeGradient()">Change gradient</button>
-      <button onclick="changeRadius()">Change radius</button>
-      <button onclick="changeOpacity()">Change opacity</button>
+    <div class="row">
+        <button class="btn btn-default" onclick="toggleHeatmap()">Toggle Heatmap</button>
+        <button class="btn btn-default" onclick="changeGradient()">Change gradient</button>
+        <button class="btn btn-default" onclick="changeRadius()">Change radius</button>
+        <button class="btn btn-default" onclick="changeOpacity()">Change opacity</button>
     </div>
     <div id="map"></div>
     <script>
