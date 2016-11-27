@@ -1,3 +1,14 @@
+"""
+    Extrai do mongodb os tweets que estao nos Estados Unidos, fazendo uso
+    da API geopy.Nominatim para enviar as coordenadas geograficas do tweet
+    e ela retornar o estado americano onde o tweet foi postado, e depois
+    insere o tweet e todas as informacoes relevantes no grafo
+
+    Autores: Lucas Alves Racoci - RA 156331
+             Luiz Fernando Rodrigues da Fonseca - RA 156475
+
+"""
+
 import pymongo
 from py2neo import *
 from geopy import Nominatim
@@ -6,6 +17,8 @@ import time
 from py2neo.packages.httpstream import http
 http.socket_timeout = 9999
 
+# Inicializa os clientes e busca os tweets que tem algum tipo
+# de localizacao geografica no mongodb
 g = Graph(bolt = False, password = "neo4j")
 m = pymongo.MongoClient()
 c = m.twitter.tweets
@@ -23,8 +36,13 @@ cursor = c.find(query, no_cursor_timeout = True)
 
 geolocator = Nominatim(timeout = 5)
 
+# Offset para retomar execucao apos uma falha
 offset = 0
 
+# Para cada tweet encontrado, checa se ele esta dentro de um quadrado
+# que engloba os Estados Unidos e chama o geolocator para conseguir
+# as informacoes dos locais do tweet, sendo que e necessario dormir
+# durante um segundo para nao exceder a quota da API
 i = 1
 for tweet in cursor:
 	if i > offset:
@@ -76,6 +94,8 @@ for tweet in cursor:
 							print "GeocoderUnavailable"
 							time.sleep(30)
 
+		# Se o tweet esta nos Estados Unidos e tem informacoes
+		# do estado americano, insere o tweet no neo4j
 		if location != None:
 			if 'address' in location.raw.keys() and 'state' in location.raw['address'].keys() and 'country' in location.raw['address'].keys():
 				if location.raw['address']['country'] == "United States of America":

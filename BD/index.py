@@ -1,3 +1,11 @@
+"""
+    Cria os indices para todas as propriedades nos dois grafos
+
+    Autores: Lucas Alves Racoci - RA 156331
+             Luiz Fernando Rodrigues da Fonseca - RA 156475
+
+"""
+
 from py2neo import *
 
 g = Graph(bolt = False, password = "neo4j")

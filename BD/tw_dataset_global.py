@@ -4,13 +4,12 @@
 ##   represented by a float ranging from 0 (bad) to 1 (good)
 
 """
-    Implementation of database queries API
+    Implementacao de uma API que retorna os textos dos tweets
+    e atualiza o sentimento (label) apos passar pela rede
+    neural imlementada com machine learning
 
-    BD description:
-                    Input: String of 256 char;
-
-    OBS: Pode alterar as assinaturas ou os comentários, só manter as funções
-         da API que tá tranquilo.
+    Autores: Lucas Alves Racoci - RA 156331
+             Luiz Fernando Rodrigues da Fonseca - RA 156475
 
 """
 
@@ -20,15 +19,17 @@ from py2neo.packages.httpstream import http
 
 class tw_dataset:
     ## Initialize class
-    ##    batch size := instances from database returned at once
+    ##    batch size := quantidade de textos retornados de uma vez
     def __init__(self, batch_size):
 
+        # Inicializa ponteiros e tempo do socket do neo4j
         http.socket_timeout = 9999
 
         self.batch_size = batch_size
         self.pointer = 1
         self.return_size = 0
 
+        # Inicializa variaveis que serao utilizadas no processo
         #self.g = Graph(password = "123456")
         self.g = Graph(bolt = False, password = "neo4j")
 
@@ -46,17 +47,11 @@ class tw_dataset:
 
         self.ids = []
 
-    ## Returns next (available) batch, i.e. (input)
+        ## Retorna proximo batch disponivel, i.e. (input)
     ## 
     ##    OBS: retorna um novo batch de arquivos do banco de dados,
-    ##         do formato (por exemplo):    
+    ##         do formato:    
     ##         tweets = np.chararray(shape=(len(batch)), itemsize=140)
-    ##
-    ##    dicas: - verificar se o que está retornando existe (x is None)):
-    ##           - escolher queries de maneira randômica (mas sem repetir)
-    ##           - caso o banco de dados tenha finalizado os arquivos,
-    ##             começar novamente o ciclo e continuar retornando os arquivos 
-    ##             novamente
     def get_next_batch(self, restart = False):
 
         if restart == True:
@@ -81,15 +76,11 @@ class tw_dataset:
 
         return tweets
 
-    ## Receive information related to batch of last batch of tweets and
-    ## update database
+    ## Recebe informacao de sentimento do ultimo batch e atualiza os tweets
     ##
     ##    Seria um formato estilo:
     ##         labels = np.ndarray(shape=(len(batch), 2),
     ##                             dtype=np.uint8)
-    ##    Ver qual a melhor forma de identificar os tweets a serem utilizados!
-    ##    Seja com um índice interno na classe registrando os tweets ou um
-    ##    parâmetro que a função recebe com os índices de cada tweet, por ex.
     def update(self, labels):
 
         if self.return_size <= 0:
@@ -103,5 +94,6 @@ class tw_dataset:
 
         return True
 
+    ## Checa se ja acabou os tweets
     def finished(self):
         return self.pointer > self.size

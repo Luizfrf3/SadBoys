@@ -1,10 +1,21 @@
+"""
+    Inicializa os estados com suas informacoes, cria relacoes
+    entre os tweets e os estados e calcula a media dos
+    sentimentos em cada estado
+
+    Autores: Lucas Alves Racoci - RA 156331
+             Luiz Fernando Rodrigues da Fonseca - RA 156475
+
+"""
+
 from py2neo import *
 import csv
 
 #g = Graph(password="123456")
 g = Graph(bolt=False, password="neo4j")
 
-
+# Abre os arquivos com as taxas de suicidio e depressao
+# e formata os dados para serem colocados no grafo
 fName = {
 	'rate': "suicide_rate_per_state", 
 	'episode': "depressive_episode_per_state", 
@@ -13,9 +24,7 @@ fName = {
 
 fPath = {name: "../suicide_depression/"+fName[name]+".csv" for name in fName}
 
-
 states = {}
-
 
 with open(fPath['rate']) as csvfile:
 	reader = csv.DictReader(csvfile)
@@ -50,6 +59,7 @@ print (states)
 
 print ([state for state in states])
 
+# Cria os estados no grafo
 i = 1
 
 for entry in states:
@@ -72,14 +82,17 @@ for entry in states:
 	print (i)
 	i += 1
 
+# Cria uma aresta entre o tweet e o estado onde ele foi postado
 query = """
 match (t:tweet) 
 match (s:state) 
 where s.name = t.state 
 create (s)-[:has]->(t)
 """
+
 g.run(query)
 
+# Calcula a media de sentimento dos tweets de cada estado e atualiza
 query = """
 match (s:state)-[:has]->(t:tweet)
 with s, avg(t.label) as avg_l

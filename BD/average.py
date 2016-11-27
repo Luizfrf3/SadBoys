@@ -1,3 +1,12 @@
+"""
+    Calcula as medias dos usuarios para os dois grafos,
+    considerando os sentimentos dos seus tweets
+
+    Autores: Lucas Alves Racoci - RA 156331
+             Luiz Fernando Rodrigues da Fonseca - RA 156475
+
+"""
+
 from py2neo import *
 
 g = Graph(bolt = False, password = "neo4j")
