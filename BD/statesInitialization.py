@@ -1,7 +1,8 @@
 from py2neo import *
 import csv
-g = Graph(password="123")
-#g = Graph(bolt=False, password="neo4j")
+
+#g = Graph(password="123456")
+g = Graph(bolt=False, password="neo4j")
 
 
 fName = {
