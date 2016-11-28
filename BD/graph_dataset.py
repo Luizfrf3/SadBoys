@@ -31,7 +31,7 @@ class graph_dataset:
 
 		return data[0]['id']
 
-	# Retorna quem um usuario dado pelo id segue
+	# Retorna quem um usuario dado pelo id segue e suas informacoes
 	def getFollows(self, user_id):
 
 		query = "match (u:userglobal) where u.id = '%s' return u" % (user_id)
@@ -39,9 +39,9 @@ class graph_dataset:
 		cursor = self.g.run(query)
 		data = cursor.data()[0]['u']
 
-		query = "match (u1:userglobal)-[:followsglobal]->(u2:userglobal) where u1.id = '%s' return u2.id as id, u2.label as label" % (user_id)
+		query = "match (u1:userglobal)-[:followsglobal]->(u2:userglobal) where u1.id = '%s' return u2.id as id, u2.screen_name as screen_name, u2.label as label" % (user_id)
 
 		cursor = self.g.run(query)
-		followers = cursor.data()
+		follows = cursor.data()
 
-		return data, followers
+		return data, follows
