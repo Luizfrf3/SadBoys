@@ -1,1 +1,4 @@
 flask
+
+Para rodar o neo4j no python
+pip install py2neo
