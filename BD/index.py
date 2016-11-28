@@ -36,6 +36,7 @@ g.schema.create_index("userglobal", "profile_image_https")
 g.schema.create_index("userglobal", "label")
 g.schema.create_index("userglobal", "description")
 
+g.schema.create_index("state", "name")
 g.schema.create_index("state", "position")
 g.schema.create_index("state", "rate")
 g.schema.create_index("state", "episode_18_")
