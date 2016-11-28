@@ -25,7 +25,7 @@ class graph_dataset:
 		cursor = self.g.run(query)
 
 		data = cursor.data()
-		
+
 		if data == None:
 			return None
 
@@ -36,7 +36,7 @@ class graph_dataset:
 
 		query = "match (u:userglobal) where u.id = '%s' return u" % (user_id)
 
-		cursor = self.g.run(query)self.g.run(query)
+		cursor = self.g.run(query)
 		data = cursor.data()[0]['u']
 
 		query = "match (u1:userglobal)-[:followsglobal]->(u2:userglobal) where u1.id = '%s' return u2.id as id, u2.screen_name as screen_name, u2.label as label" % (user_id)
