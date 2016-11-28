@@ -275,7 +275,7 @@ var statemap = {
     }
 };
 
-function getJSON(url, callback) {
+var getJSON = function(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open("get", url, true);
     xhr.responseType = "json";
@@ -290,7 +290,16 @@ function getJSON(url, callback) {
     xhr.send();
 };
 
-console.log(getJSON(/map/data))
+getJSON("/map/data",
+function(err, data) {
+  if (err != null) {
+    alert("Something went wrong: " + err);
+  } else {
+    alert("Your query count: " + data.query.count);
+  }
+});
+
+
 
 // Center on the US, and zoom apropriate to show the entire US map.
 function initMap() {
