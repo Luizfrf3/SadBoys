@@ -9,11 +9,6 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="/map">All the nodes</a></li>
-                <li><a href="/map-happy">Happy Nodes</a></li>
-                <li><a href="/map-sad">Sad Nodes</a></li>
-            </ul>
             <div class="col-md-10 col-md-offset-1">
                 <div id="map"></div>
             </div>
@@ -28,7 +23,7 @@
     // Center on the US, and zoom apropriate to show the entire US map.
     function initMap() {
         $.getJSON("/map/data/states", function(json1) {
-                $.getJSON("/map/data/tweets", function(json2) {
+                $.getJSON("/map/data/tweets/sad", function(json2) {
                 realInitMap(json1, json2);
             });
         });

@@ -86,6 +86,28 @@ def tweets_heatmap():
 
     return tweets
 
+def tweets_heatmap_happy():
+    # Creates a new object to deal with bd
+    db = heatmap_dataset()
+    initial_tweets = db.getTweetsPositive()
+    tweets = []
+
+    for tweet in initial_tweets:
+        tweets.append(create_tweets(tweet['coordinates'], tweet['label']))
+
+    return tweets
+
+def tweets_heatmap_sad():
+    # Creates a new object to deal with bd
+    db = heatmap_dataset()
+    initial_tweets = db.getTweetsNegative()
+    tweets = []
+
+    for tweet in initial_tweets:
+        tweets.append(create_tweets(tweet['coordinates'], tweet['label']))
+
+    return tweets
+
 
 
 
