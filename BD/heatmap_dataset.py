@@ -39,3 +39,29 @@ class heatmap_dataset:
 			tweets.append({'coordinates': np.float64(t['coor']), 'label': float(t['label'])})
 
 		return tweets
+
+	# Retorna as coordenadas e o sentimento dos tweets menores que 0.5
+	def getTweetsNegative(self):
+
+		query = "match (t:tweet) where t.label < 0.5 return t.coordinates as coor, t.label as label"
+		cursor = self.g.run(query)
+
+		tweets = []
+
+		for t in cursor:
+			tweets.append({'coordinates': np.float64(t['coor']), 'label': float(t['label'])})
+
+		return tweets
+
+	# Retorna as coordenadas e o sentimento dos tweets maiores ou iguais que 0.5
+	def getTweetsPositive(self):
+
+		query = "match (t:tweet) where t.label >= 0.5 return t.coordinates as coor, t.label as label"
+		cursor = self.g.run(query)
+
+		tweets = []
+
+		for t in cursor:
+			tweets.append({'coordinates': np.float64(t['coor']), 'label': float(t['label'])})
+
+		return tweets
