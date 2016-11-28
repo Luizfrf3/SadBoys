@@ -2,7 +2,6 @@
 
 {% block header %}
     <title>Heatmap</title>
-    <script src="static/lib/js/require.js"></script>
     <link rel="stylesheet" href="static/css/map.css" type="text/css"/>
 {% endblock %}
 
@@ -17,7 +16,7 @@
     <div id="map"></div>
     <script>
 
-var map, heatmap;
+var map, heatmap, statesJSON, tweetsJSON;
 // Variavel que mapeia o nome de cada estado ao seu centro (lat e long).
 var statemap = {
     Alabama: {
@@ -284,26 +283,26 @@ function initMap() {
     mapTypeId: google.maps.MapTypeId.TERRAIN
   });
 
+  $.getJSON("/map/data", function(json) {
+      statesJSON = json;
+  });
+
   for (var state in statemap) {
-      /////////////////////////
-      /* USAR FUNCAO ABAIXO */
-      ///////////////////////
-      // var StateRates = getStateData(state.name);
-      // Add the circle for this state to the map.
-      var stateCircle = new google.maps.Circle({
-          strokeColor: '#0000FF',
-          strokeOpacity: 0.35,
-          strokeWeight: 1,
-          fillColor: '#0000FF',
-          fillOpacity: 0.35,
-          map: map,
-          center: statemap[state].center,
-          /////////////////////////
-          /* USAR FUNCAO ABAIXO */
-          ///////////////////////
-          // radius: ((StateRates.depression_rate + StateRates.suicide_rate)*10000 - 80000)
-          radius: 80000
-      });
+      for(var stateInfo in statesJSON){
+          if(state.name = stateInfo.name){
+              // Add the circle for this state to the map.
+              var stateCircle = new google.maps.Circle({
+                  strokeColor: '#0000FF',
+                  strokeOpacity: 0.35,
+                  strokeWeight: 1,
+                  fillColor: '#0000FF',
+                  fillOpacity: 0.35,
+                  map: map,
+                  center: statemap[state].center,
+                  radius: ((stateInfo.depression_percentage + stateInfo.suicide_rate)*10000 - 80000)
+              });
+          }
+      }
   }
 
   heatmap = new google.maps.visualization.HeatmapLayer({
