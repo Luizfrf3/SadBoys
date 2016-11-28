@@ -18,9 +18,10 @@ app = Flask(__name__)
 @app.route('/', methods = ['GET', 'POST'])
 def view_analysis():
     if request.method == 'POST':
+        search = str(request.form['search'])
         av = apde.analyse(str(request.form['search']))
         print(str(av))
-        return render_template("index.html", av = av)
+        return render_template("index.html", av = av, search = search)
     if request.method == 'GET':
         return render_template("index.html")
 
@@ -56,6 +57,16 @@ def map_states():
 
 @app.route("/map/data/tweets")
 def map_tweets():
+    t = tweets_heatmap()
+    return jsonify(t)
+
+@app.route("/map/data/tweets/happy")
+def map_tweets_happy():
+    t = tweets_heatmap()
+    return jsonify(t)
+
+@app.route("/map/data/tweets/sad")
+def map_tweets_sad():
     t = tweets_heatmap()
     return jsonify(t)
 
