@@ -16,7 +16,7 @@
     <div id="map"></div>
     <script>
 
-var map, heatmap, statesJSON, tweetsJSON;
+var map, heatmap;
 // Variavel que mapeia o nome de cada estado ao seu centro (lat e long).
 var statemap = {
     Alabama: {
@@ -275,91 +275,92 @@ var statemap = {
     }
 };
 
+
+
 // Center on the US, and zoom apropriate to show the entire US map.
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 5,
-    center: {lat: 39, lng: -95},
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  });
-
-  $.getJSON("/map/data", function(json) {
-      statesJSON = json;
-  });
-
-  for (var state in statemap) {
-      for(var stateInfo in statesJSON){
-          if(state.name = stateInfo.name){
-              // Add the circle for this state to the map.
-              var stateCircle = new google.maps.Circle({
-                  strokeColor: '#0000FF',
-                  strokeOpacity: 0.35,
-                  strokeWeight: 1,
-                  fillColor: '#0000FF',
-                  fillOpacity: 0.35,
-                  map: map,
-                  center: statemap[state].center,
-                  radius: ((stateInfo.depression_percentage + stateInfo.suicide_rate)*10000 - 80000)
-              });
-          }
-      }
-  }
-
-  heatmap = new google.maps.visualization.HeatmapLayer({
-    data: getPoints(),
-    map: map
-  });
-}
-
-function toggleHeatmap() {
-  heatmap.setMap(heatmap.getMap() ? null : map);
-}
-
-function changeGradient() {
-  var gradient = [
-    'rgba(0, 255, 255, 0)',
-    'rgba(0, 255, 255, 1)',
-    'rgba(0, 191, 255, 1)',
-    'rgba(0, 127, 255, 1)',
-    'rgba(0, 63, 255, 1)',
-    'rgba(0, 0, 255, 1)',
-    'rgba(0, 0, 223, 1)',
-    'rgba(0, 0, 191, 1)',
-    'rgba(0, 0, 159, 1)',
-    'rgba(0, 0, 127, 1)',
-    'rgba(63, 0, 91, 1)',
-    'rgba(127, 0, 63, 1)',
-    'rgba(191, 0, 31, 1)',
-    'rgba(255, 0, 0, 1)'
-  ]
-  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-}
-
-function changeRadius() {
-  heatmap.set('radius', heatmap.get('radius') ? null : 20);
-}
-
-function changeOpacity() {
-  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
-}
-
-function getPoints() {
-    /////////////////////////
-    /* USAR FUNCAO ABAIXO */
-    ///////////////////////
-    //var tweets = getTweets();
-    var points = [];
-    /////////////////////////
-    /* USAR FUNCAO ABAIXO */
-    ///////////////////////
-    /*for(i = 0; i<tweets.length(); i++){
-        points.push({location: new google.maps.LatLng((tweets[i].lat), tweets[i].long), weight: tweets[i].sentiment_value});
-    }*/
-    for(i = 0; i<50000; i++){
-        points.push({location: new google.maps.LatLng(((Math.random() * 23) + 26), ((Math.random() * (-60)) - 66)), weight: (Math.random() * 1)});
+    function initMap() {
+        $.getJSON("/map/data/states", function(json1) {
+                $.getJSON("/map/data/tweets", function(json2) {
+                realInitMap(json1, json2);
+            });
+        });
     }
-    return points;
-}
+
+    function realInitMap(statesJSON, tweetsJSON) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 5,
+            center: {lat: 39, lng: -95},
+            mapTypeId: google.maps.MapTypeId.TERRAIN
+        });
+
+        for (var state in statemap) {
+            for(var stateInfo in statesJSON){
+                if(statemap[state]['name'] == statesJSON[stateInfo]['name']){
+                    // Add the circle for this state to the map.
+                    var stateCircle = new google.maps.Circle({
+                        strokeColor: '#0000FF',
+                        strokeOpacity: 0.35,
+                        strokeWeight: 1,
+                        fillColor: '#0000FF',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: statemap[state].center,
+                        radius: ((statesJSON[stateInfo]["depressive_percentage"] + statesJSON[stateInfo]["suicide_rate"])*10000 - 80000)
+                    });
+                }
+            }
+        }
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+            data: tweets_point(tweetsJSON),
+            map: map
+        });
+
+        heatmap.set('radius', heatmap.get('radius') ? null : 20);
+    }
+
+    function tweets_point(tweetsJSON) {
+        var points = [];
+
+        for(var tweet in tweetsJSON){
+            points.push(
+                {
+                    location: new google.maps.LatLng((tweetsJSON[tweet]["lat"]), tweetsJSON[tweet]["long"]),
+                    weight: 100*(tweetsJSON[tweet]["label"])
+                }
+            );
+        }
+        return points;
+    }
+
+    function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+    }
+
+    function changeGradient() {
+        var gradient = [
+            'rgba(0, 255, 255, 0)',
+            'rgba(0, 255, 255, 1)',
+            'rgba(0, 191, 255, 1)',
+            'rgba(0, 127, 255, 1)',
+            'rgba(0, 63, 255, 1)',
+            'rgba(0, 0, 255, 1)',
+            'rgba(0, 0, 223, 1)',
+            'rgba(0, 0, 191, 1)',
+            'rgba(0, 0, 159, 1)',
+            'rgba(0, 0, 127, 1)',
+            'rgba(63, 0, 91, 1)',
+            'rgba(127, 0, 63, 1)',
+            'rgba(191, 0, 31, 1)',
+            'rgba(255, 0, 0, 1)'
+        ]
+        heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+    }
+
+    function changeOpacity() {
+        heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+    }
+
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAv0u-jKOeQ0H7vJyFFhq6At3_AVeZr0bM&signed_in=true&libraries=visualization&callback=initMap">
