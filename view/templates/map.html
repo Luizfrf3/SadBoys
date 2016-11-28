@@ -7,273 +7,281 @@
 
 
 {% block content %}
-    <div class="row">
-        <button class="btn btn-default" onclick="toggleHeatmap()">Toggle Heatmap</button>
-        <button class="btn btn-default" onclick="changeGradient()">Change gradient</button>
-        <button class="btn btn-default" onclick="changeRadius()">Change radius</button>
-        <button class="btn btn-default" onclick="changeOpacity()">Change opacity</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row">
+                    <div class="col-md-7 col-md-offset-3">
+                    <button class="btn btn-default" onclick="toggleHeatmap()">Toggle Heatmap</button>
+                    <button class="btn btn-default" onclick="changeGradient()">Change gradient</button>
+                    <button class="btn btn-default" onclick="changeRadius()">Change radius</button>
+                    <button class="btn btn-default" onclick="changeOpacity()">Change opacity</button>
+                </div>
+                <div id="map"></div>
+            </div>
+        </div>
     </div>
-    <div id="map"></div>
-    <script>
 
-var map, heatmap;
-// Variavel que mapeia o nome de cada estado ao seu centro (lat e long).
-var statemap = {
-    Alabama: {
-        name: "Alabama",
-        center: {lat: 32.778, lng: -86.929}
-    },
+<script>
 
-    Alaska: {
-        name: "Alaska",
-        center: {lat: 64.061, lng: -152.231}
-    },
+    var map, heatmap;
+    // Variavel que mapeia o nome de cada estado ao seu centro (lat e long).
+    var statemap = {
+        Alabama: {
+            name: "Alabama",
+            center: {lat: 32.778, lng: -86.929}
+        },
 
-    Arizona: {
-        name: "Arizona",
-        center: {lat: 34.274, lng: -111.658}
-    },
+        Alaska: {
+            name: "Alaska",
+            center: {lat: 64.061, lng: -152.231}
+        },
 
-    Arkansas: {
-        name: "Arkansas",
-        center: {lat: 34.894, lng: -92.4429}
-    },
+        Arizona: {
+            name: "Arizona",
+            center: {lat: 34.274, lng: -111.658}
+        },
 
-    California: {
-        name: "California",
-        center: {lat: 37.199, lng: -119.450}
-    },
+        Arkansas: {
+            name: "Arkansas",
+            center: {lat: 34.894, lng: -92.4429}
+        },
 
-    Colorado: {
-        name: "Colorado",
-        center: {lat: 38.998, lng: -105.549}
-    },
+        California: {
+            name: "California",
+            center: {lat: 37.199, lng: -119.450}
+        },
 
-    Connecticut: {
-        name: "Connecticut",
-        center: {lat: 41.622, lng: -72.727}
-    },
+        Colorado: {
+            name: "Colorado",
+            center: {lat: 38.998, lng: -105.549}
+        },
 
-    Delaware: {
-        name: "Delaware",
-        center: {lat: 38.989, lng: -75.505}
-    },
+        Connecticut: {
+            name: "Connecticut",
+            center: {lat: 41.622, lng: -72.727}
+        },
 
-    DistrictOfColumbia: {
-        name: "District of Columbia",
-        center: {lat: 38.910, lng: -77.015}
-    },
+        Delaware: {
+            name: "Delaware",
+            center: {lat: 38.989, lng: -75.505}
+        },
 
-    Florida: {
-        name: "Florida",
-        center: {lat: 28.628, lng: -82.443}
-    },
+        DistrictOfColumbia: {
+            name: "District of Columbia",
+            center: {lat: 38.910, lng: -77.015}
+        },
 
-    Georgia: {
-        name: "Georgia",
-        center: {lat: 32.644, lng: -83.442}
-    },
+        Florida: {
+            name: "Florida",
+            center: {lat: 28.628, lng: -82.443}
+        },
 
-    Hawaii: {
-        name: "Hawaii",
-        center: {lat: 20.295, lng: -156.372}
-    },
+        Georgia: {
+            name: "Georgia",
+            center: {lat: 32.644, lng: -83.442}
+        },
 
-    Idaho: {
-        name: "Idaho",
-        center: {lat: 44.354, lng: -114.609}
-    },
+        Hawaii: {
+            name: "Hawaii",
+            center: {lat: 20.295, lng: -156.372}
+        },
 
-    Illinois: {
-        name: "Illinois",
-        center: {lat: 40.041, lng: -89.197}
-    },
+        Idaho: {
+            name: "Idaho",
+            center: {lat: 44.354, lng: -114.609}
+        },
 
-    Indiana: {
-        name: "Indiana",
-        center: {lat: 39.894, lng: -86.282}
-    },
+        Illinois: {
+            name: "Illinois",
+            center: {lat: 40.041, lng: -89.197}
+        },
 
-    Iowa: {
-        name: "Iowa",
-        center: {lat: 42.075, lng: -93.496}
-    },
+        Indiana: {
+            name: "Indiana",
+            center: {lat: 39.894, lng: -86.282}
+        },
 
-    Kansas: {
-        name: "Kansas",
-        center: {lat: 38.495, lng: -98.380}
-    },
+        Iowa: {
+            name: "Iowa",
+            center: {lat: 42.075, lng: -93.496}
+        },
 
-    Kentucky: {
-        name: "Kentucky",
-        center: {lat: 37.536, lng: -85.302}
-    },
+        Kansas: {
+            name: "Kansas",
+            center: {lat: 38.495, lng: -98.380}
+        },
 
-    Louisiana: {
-        name: "Louisiana",
-        center: {lat: 31.069, lng: -91.995}
-    },
+        Kentucky: {
+            name: "Kentucky",
+            center: {lat: 37.536, lng: -85.302}
+        },
 
-    Maine: {
-        name: "Maine",
-        center: {lat: 45.370, lng: -69.244}
-    },
+        Louisiana: {
+            name: "Louisiana",
+            center: {lat: 31.069, lng: -91.995}
+        },
 
-    Maryland: {
-        name: "Maryland",
-        center: {lat: 39.055, lng: -76.791}
-    },
+        Maine: {
+            name: "Maine",
+            center: {lat: 45.370, lng: -69.244}
+        },
 
-    Massachusetts: {
-        name: "Massachusetts",
-        center: {lat: 42.260, lng: -71.808}
-    },
+        Maryland: {
+            name: "Maryland",
+            center: {lat: 39.055, lng: -76.791}
+        },
 
-    Michigan: {
-        name: "Michigan",
-        center: {lat: 44.346, lng: -85.411}
-    },
+        Massachusetts: {
+            name: "Massachusetts",
+            center: {lat: 42.260, lng: -71.808}
+        },
 
-    Minnesota: {
-        name: "Minnesota",
-        center: {lat: 46.281, lng: -94.305}
-    },
+        Michigan: {
+            name: "Michigan",
+            center: {lat: 44.346, lng: -85.411}
+        },
 
-    Mississippi: {
-        name: "Mississippi",
-        center: {lat: 32.735, lng: -89.668}
-    },
+        Minnesota: {
+            name: "Minnesota",
+            center: {lat: 46.281, lng: -94.305}
+        },
 
-    Missouri: {
-        name: "Missouri",
-        center: {lat: 38.357, lng: -92.457}
-    },
+        Mississippi: {
+            name: "Mississippi",
+            center: {lat: 32.735, lng: -89.668}
+        },
 
-    Montana: {
-        name: "Montana",
-        center: {lat: 47.053, lng: -109.645}
-    },
+        Missouri: {
+            name: "Missouri",
+            center: {lat: 38.357, lng: -92.457}
+        },
 
-    Nebraska: {
-        name: "Nebraska",
-        center: {lat: 41.539, lng: -99.797}
-    },
+        Montana: {
+            name: "Montana",
+            center: {lat: 47.053, lng: -109.645}
+        },
 
-    Nevada: {
-        name: "Nevada",
-        center: {lat: 39.331, lng: -116.627}
-    },
+        Nebraska: {
+            name: "Nebraska",
+            center: {lat: 41.539, lng: -99.797}
+        },
 
-    NewHampshire: {
-        name: "New Hampshire",
-        center: {lat: 43.681, lng: -71.582}
-    },
+        Nevada: {
+            name: "Nevada",
+            center: {lat: 39.331, lng: -116.627}
+        },
 
-    NewJersey: {
-        name: "New Jersey",
-        center: {lat: 40.191, lng: -74.673}
-    },
+        NewHampshire: {
+            name: "New Hampshire",
+            center: {lat: 43.681, lng: -71.582}
+        },
 
-    NewMexico: {
-        name: "New Mexico",
-        center: {lat: 34.067, lng: -106.113}
-    },
+        NewJersey: {
+            name: "New Jersey",
+            center: {lat: 40.191, lng: -74.673}
+        },
 
-    NewYork: {
-        name: "New York",
-        center: {lat: 42.954, lng: -75.526}
-    },
+        NewMexico: {
+            name: "New Mexico",
+            center: {lat: 34.067, lng: -106.113}
+        },
 
-    NorthCarolina: {
-        name: "North Carolina",
-        center: {lat: 35.558, lng: -79.386}
-    },
+        NewYork: {
+            name: "New York",
+            center: {lat: 42.954, lng: -75.526}
+        },
 
-    NorthDakota: {
-        name: "North Dakota",
-        center: {lat: 47.445, lng: -100.467}
-    },
+        NorthCarolina: {
+            name: "North Carolina",
+            center: {lat: 35.558, lng: -79.386}
+        },
 
-    Ohio: {
-        name: "Ohio",
-        center: {lat: 40.286, lng: -82.794}
-    },
+        NorthDakota: {
+            name: "North Dakota",
+            center: {lat: 47.445, lng: -100.467}
+        },
 
-    Oklahoma: {
-        name: "Oklahoma",
-        center: {lat: 35.591, lng: -97.494}
-    },
+        Ohio: {
+            name: "Ohio",
+            center: {lat: 40.286, lng: -82.794}
+        },
 
-    Oregon: {
-        name: "Oregon",
-        center: {lat: 43.934, lng: -120.562}
-    },
+        Oklahoma: {
+            name: "Oklahoma",
+            center: {lat: 35.591, lng: -97.494}
+        },
 
-    Pennsylvania: {
-        name: "Pennsylvania",
-        center: {lat: 40.879, lng: -77.799}
-    },
+        Oregon: {
+            name: "Oregon",
+            center: {lat: 43.934, lng: -120.562}
+        },
 
-    RhodeIsland: {
-        name: "Rhode Island",
-        center: {lat: 41.676, lng: -71.556}
-    },
+        Pennsylvania: {
+            name: "Pennsylvania",
+            center: {lat: 40.879, lng: -77.799}
+        },
 
-    SouthCarolina: {
-        name: "South Carolina",
-        center: {lat: 33.917, lng: -80.896}
-    },
+        RhodeIsland: {
+            name: "Rhode Island",
+            center: {lat: 41.676, lng: -71.556}
+        },
 
-    SouthDakota: {
-        name: "South Dakota",
-        center: {lat: 44.445, lng: -100.228}
-    },
+        SouthCarolina: {
+            name: "South Carolina",
+            center: {lat: 33.917, lng: -80.896}
+        },
 
-    Tennessee: {
-        name: "Tennessee",
-        center: {lat: 35.861, lng: -86.350}
-    },
+        SouthDakota: {
+            name: "South Dakota",
+            center: {lat: 44.445, lng: -100.228}
+        },
 
-    Texas: {
-        name: "Texas",
-        center: {lat: 31.479, lng: -99.329}
-    },
+        Tennessee: {
+            name: "Tennessee",
+            center: {lat: 35.861, lng: -86.350}
+        },
 
-    Utah: {
-        name: "Utah",
-        center: {lat: 39.306, lng: -111.669}
-    },
+        Texas: {
+            name: "Texas",
+            center: {lat: 31.479, lng: -99.329}
+        },
 
-    Vermont: {
-        name: "Vermont",
-        center: {lat: 44.069, lng: -72.666}
-    },
+        Utah: {
+            name: "Utah",
+            center: {lat: 39.306, lng: -111.669}
+        },
 
-    Virginia: {
-        name: "Virginia",
-        center: {lat: 37.523, lng: -78.853}
-    },
+        Vermont: {
+            name: "Vermont",
+            center: {lat: 44.069, lng: -72.666}
+        },
 
-    Washington: {
-        name: "Washington",
-        center: {lat: 47.382, lng: -120.451}
-    },
+        Virginia: {
+            name: "Virginia",
+            center: {lat: 37.523, lng: -78.853}
+        },
 
-    WestVirginia: {
-        name: "West Virginia",
-        center: {lat: 38.641, lng: -80.623}
-    },
+        Washington: {
+            name: "Washington",
+            center: {lat: 47.382, lng: -120.451}
+        },
 
-    Wisconsin: {
-        name: "Wisconsin",
-        center: {lat: 44.624, lng: -89.994}
-    },
+        WestVirginia: {
+            name: "West Virginia",
+            center: {lat: 38.641, lng: -80.623}
+        },
 
-    Wyoming: {
-        name: "Wyoming",
-        center: {lat: 42.996, lng: -107.553}
-    }
-};
+        Wisconsin: {
+            name: "Wisconsin",
+            center: {lat: 44.624, lng: -89.994}
+        },
+
+        Wyoming: {
+            name: "Wyoming",
+            center: {lat: 42.996, lng: -107.553}
+        }
+    };
 
 
 
@@ -326,7 +334,7 @@ var statemap = {
             points.push(
                 {
                     location: new google.maps.LatLng((tweetsJSON[tweet]["lat"]), tweetsJSON[tweet]["long"]),
-                    weight: 100*(tweetsJSON[tweet]["label"])
+                    weight: 1000*(tweetsJSON[tweet]["label"])
                 }
             );
         }
@@ -361,9 +369,9 @@ var statemap = {
         heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
     }
 
-    </script>
-    <script async defer
+</script>
+<script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAv0u-jKOeQ0H7vJyFFhq6At3_AVeZr0bM&signed_in=true&libraries=visualization&callback=initMap">
-    </script>
+</script>
 
 {% endblock %}
