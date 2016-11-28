@@ -39,7 +39,7 @@ def initial_graph():
     main_user = create_node(user_info['id'], user_info['screen_name'],
                             user_info['label'], 16)
     nodes.append(main_user)
-    for user in user_folows:
+    for user in user_follows:
         # TEMOS UM PROBLEMA AQUI - screen_name
         nodes.append(create_node(user['id'], user['screen_name'],
                                  user['label']))
@@ -55,7 +55,7 @@ def initial_graph():
 def create_node(id, label, depression, size = 10, att = {}):
     node = dict()
 
-    group = depression
+    group = int(depression*10)
     node['id'] = str(id)
     node['label'] = str(label)
     node['size'] = int(size)
