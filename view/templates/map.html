@@ -275,32 +275,6 @@ var statemap = {
     }
 };
 
-var getJSON = function(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("get", url, true);
-    xhr.responseType = "json";
-    xhr.onload = function() {
-      var status = xhr.status;
-      if (status == 200) {
-        callback(null, xhr.response);
-      } else {
-        callback(status);
-      }
-    };
-    xhr.send();
-};
-
-getJSON("/map/data",
-function(err, data) {
-  if (err != null) {
-    alert("Something went wrong: " + err);
-  } else {
-    alert("Your query count: " + data.query.count);
-  }
-});
-
-
-
 // Center on the US, and zoom apropriate to show the entire US map.
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
