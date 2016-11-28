@@ -24,6 +24,7 @@ colors = {
     9: "rgb(247, 65, 0)",
 }
 
+
 def initial_graph():
     # Creates a new object to deal with bd
     db = graph_dataset()
@@ -33,15 +34,21 @@ def initial_graph():
 
     nodes = []
     edges = []
-    # to be continued
+
+    # Creates the nodes
     main_user = create_node(user_info['id'], user_info['screen_name'],
                             user_info['label'], 16)
     nodes.append(main_user)
     for user in user_folows:
-        # TEMOS UM PROBLEMA AQUI
+        # TEMOS UM PROBLEMA AQUI - screen_name
         nodes.append(create_node(user['id'], user['screen_name'],
                                  user['label']))
-    # needs to turn this node into
+
+    # Creates the edges
+    for node in nodes[1:]:
+        edges.append(create_edge(nodes[0]['id'], node['id']))
+
+    return nodes, edges
 
 
 # Creates a node containing the information below
