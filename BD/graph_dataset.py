@@ -36,7 +36,7 @@ class graph_dataset:
 
 		query = "match (u:userglobal) where u.id = '%s' return u" % (user_id)
 
-		cursor = self.g.run(query)
+		cursor = self.g.run(query)self.g.run(query)
 		data = cursor.data()[0]['u']
 
 		query = "match (u1:userglobal)-[:followsglobal]->(u2:userglobal) where u1.id = '%s' return u2.id as id, u2.screen_name as screen_name, u2.label as label" % (user_id)
@@ -45,3 +45,13 @@ class graph_dataset:
 		follows = cursor.data()
 
 		return data, follows
+
+	# Dado o id de um usuario, retorna os primeiros 500 tweets dele
+	def getTweets(self, user_id):
+
+		query = "match (u:userglobal)-[:twittedglobal]->(t:tweetglobal) where u.id = '%s' return t limit 500" % (user_id)
+
+		cursor = self.g.run(query)
+		data = cursor.data()
+
+		return [x['t'] for x in data]
