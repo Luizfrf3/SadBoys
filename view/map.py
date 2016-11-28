@@ -73,12 +73,12 @@ def initial_heatmap():
 
     for state in state_names:
         s_rates = db.getStateData(state)
-        states.append(create_state_rates(s_rates['name'], s_rates['avg_label'],
+        states.append(create_state_rates(state, s_rates['avg_l'],
                                          s_rates['suicide_rate'], s_rates['depressive_percentage'],
                                          s_rates['suicide_percentage']))
 
     for tweet in initial_tweets:
-        tweets.append(create_tweets(tweet['coord'], tweet['label']))
+        tweets.append(create_tweets(tweet['coordinates'], tweet['label']))
 
     return states, tweets
 
