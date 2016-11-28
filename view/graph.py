@@ -29,8 +29,33 @@ def initial_graph():
     # Creates a new object to deal with bd
     db = graph_dataset()
 
-    initial_user_id = db.getUserID('justinbieber')
+    initial_user_id = db.getUserID('averma10001')
     user_info, user_follows = db.getFollows(initial_user_id)
+
+    nodes = []
+    edges = []
+
+    # Creates the nodes
+    main_user = create_node(user_info['id'], user_info['screen_name'],
+                            user_info['label'], 16)
+    nodes.append(main_user)
+    for user in user_follows:
+        # TEMOS UM PROBLEMA AQUI - screen_name
+        nodes.append(create_node(user['id'], user['screen_name'],
+                                 user['label']))
+
+    # Creates the edges
+    for node in nodes[1:]:
+        edges.append(create_edge(nodes[0]['id'], node['id']))
+
+    return nodes, edges
+
+
+def user_graph(user_id):
+    # Creates a new object to deal with bd
+    db = graph_dataset()
+
+    user_info, user_follows = db.getFollows(user_id)
 
     nodes = []
     edges = []

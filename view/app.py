@@ -5,7 +5,7 @@ from flask import Flask
 from flask import render_template
 from flask import jsonify, json, Response
 
-from graph import generate_graph, generate_edges, generate_nodes, initial_graph
+from graph import generate_graph, generate_edges, generate_nodes, initial_graph, user_graph
 
 app = Flask(__name__)
 
