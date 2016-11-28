@@ -24,4 +24,4 @@ pymongo
 py2neo
 geopy
 
-Devido aos bancos serem muito grandes, foram colocadas instâncias muito pequena deles.
+Devido aos bancos serem muito grandes, não foi possível colocar os bancos de dados aqui, tanto o MongoDB quanto o Neo4J.
