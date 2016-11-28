@@ -6,7 +6,7 @@ from flask import render_template
 from flask import jsonify, json, Response
 
 from graph import generate_graph, generate_edges, generate_nodes, initial_graph, user_graph
-from map import initial_heatmap, create_state_rates, create_tweets
+from map import states_heatmap, tweets_heatmap
 
 app = Flask(__name__)
 
@@ -33,10 +33,15 @@ def graph_complete_user(user_id):
 def map():
     return render_template("map.html")
 
-@app.route("/map/data")
+@app.route("/map/data/states")
 def map_states():
-    s, t = initial_heatmap()
-    return jsonify(states = s, tweets = t)
+    s = states_heatmap()
+    return jsonify(s)
+
+@app.route("/map/data/tweets")
+def map_tweets():
+    t = tweets_heatmap()
+    return jsonify(t)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=5000,debug=True)

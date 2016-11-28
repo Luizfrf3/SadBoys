@@ -62,25 +62,32 @@ state_names = [
     "Wisconsin",
 ]
 
-def initial_heatmap():
-    # Creates a new object to deal with bd
+def states_heatmap():
     db = heatmap_dataset()
-    initial_tweets = db.getTweets()
-
-
     states = []
-    tweets = []
-
     for state in state_names:
         s_rates = db.getStateData(state)
         states.append(create_state_rates(state, s_rates['avg_l'],
                                          s_rates['suicide_rate'], s_rates['depressive_percentage'],
                                          s_rates['suicide_percentage']))
 
+
+
+    return states
+
+def tweets_heatmap():
+    # Creates a new object to deal with bd
+    db = heatmap_dataset()
+    initial_tweets = db.getTweets()
+    tweets = []
+
     for tweet in initial_tweets:
         tweets.append(create_tweets(tweet['coordinates'], tweet['label']))
 
-    return states, tweets
+    return tweets
+
+
+
 
 # Creates states_rates
 def create_state_rates(name, avg_label, suicide_rate, depressive_percentage, suicide_percentage):
