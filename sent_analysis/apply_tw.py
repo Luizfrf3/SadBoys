@@ -1,7 +1,7 @@
 '''
     Project: Sentiment Analysis Classifier
         Rate a tweets as a sentiment, ranging from 0 to 1.
-        Based on a string input
+        Based on comunications with tweet Database
 
     Authors: Isadora Sophia
              Matheus Diamantino
@@ -36,28 +36,36 @@ def main():
 
     c = 0
 
-    
-    X = [raw_input()]
+    db = tw_dataset(batch_size=batch_size)
 
-    ## preprocess text
-    tk = tokenizer.Tokenizer(nb_words=max_features)
-    tk.apply_imdb()
+    while not db.finished():
+        ## get batch
+        X = db.get_next_batch()
 
-    X = tk.texts_to_sequences(X)
-    print(X)
+        ## preprocess text
+        tk = tokenizer.Tokenizer(nb_words=max_features)
+        tk.apply_imdb()
 
-    ## pad sequence
-    X = sequence.pad_sequences(X, maxlen=maxlen)
+        X = tk.texts_to_sequences(X)
 
-    ## get output
-    Y = model.predict(X, batch_size=batch_size, verbose=0)
+        ## pad sequence
+        X = sequence.pad_sequences(X, maxlen=maxlen)
 
-    ## change to correct format
-    for x in Y:
-        for w in x:
-            return w
+        ## get output
+        Y = model.predict(X, batch_size=batch_size, verbose=0)
 
-    
+        ## change to correct format
+        labels = []
+        for x in Y:
+            for w in x:
+                labels.append(w)
+
+        ## finally, update db
+        db.update(labels)
+        c += 1
+
+        if c % 1000 is 0:
+            print 'Checkpoint: ' + str(c*32) + ' iterations.'
 
 if __name__ == "__main__":
     main()
