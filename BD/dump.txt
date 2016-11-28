@@ -25,6 +25,6 @@ py2neo
 geopy
 
 Devido aos bancos serem muito grandes, não foi possível colocar os bancos de dados aqui, tanto o MongoDB quanto o Neo4J.
-Porém, o banco de grafos foi disponibilizado no link abaixo para que testes com o navegador pudessem ser feitos:
+Porém, o banco de grafos já construído foi disponibilizado no link abaixo para que testes com o navegador pudessem ser feitos:
 https://drive.google.com/drive/u/1/folders/0B-E0rzbi0pmyczBlWjJjRjRMcEE
 Para rodar o banco, vá para a pasta neo4j-community-3.0.7/bin após descompactar o arquivo e execute ./neo4j console
