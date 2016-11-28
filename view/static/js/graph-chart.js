@@ -1,6 +1,7 @@
 var nodes = new vis.DataSet();
 var edges = new vis.DataSet();
 var dataSet;
+var mode = "friends"
 
 var container = document.getElementById('sadboysgraph');
 var nodeContent = document.getElementById('nodeContent');
@@ -82,10 +83,14 @@ network.on('deselectNode', function (params) {
 })
 
 network.on('doubleClick', function (params) {
+  if(mode === "friends")
   console.log(params['nodes'])
   loadJSON("/graph/data/"+params['nodes'], getNodesAndEdges, function(err) {
     console.log('Error on loading json: ' + err);
   });
+  attributes = data['atrribute']
+  console.log(attributes)
+  user_img(attributes['img_url'])
 })
 
 
