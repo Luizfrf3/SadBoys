@@ -5,7 +5,7 @@ from flask import Flask
 from flask import render_template
 from flask import jsonify, json, Response
 
-from graph import generate_graph, generate_edges, generate_nodes, initial_graph, user_graph
+from graph import initial_graph, user_graph, user_tweet_graph
 from map import states_heatmap, tweets_heatmap
 
 app = Flask(__name__)
@@ -24,9 +24,15 @@ def graph_complete():
     return jsonify(nodes = n, edges = e)
 
 # To acess a certain node date just go to graph
-@app.route("/graph/data/<int:user_id>")
-def graph_complete_user(user_id):
+@app.route("/graph/data/follows/<int:user_id>")
+def graph_complete_user_f(user_id):
     n, e = user_graph(int(user_id))
+    return jsonify(nodes = n, edges = e)
+
+# To acess a certain node date just go to graph
+@app.route("/graph/data/tweets/<int:user_id>")
+def graph_complete_user_t(user_id):
+    n, e = user_tweet_graph(int(user_id))
     return jsonify(nodes = n, edges = e)
 
 @app.route("/map")

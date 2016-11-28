@@ -3,7 +3,6 @@
 # Module to deal with the graph data
 # Authors: Henrique
 #          Thiago
-
 import random, json, sys
 
 sys.path.insert(0, '../')
@@ -28,25 +27,68 @@ colors = {
 def initial_graph():
     # Creates a new object to deal with bd
     db = graph_dataset()
-
-    initial_user_id = db.getUserID('averma10001')
+    initial_user_id = db.getUserID('justinbieber')
     user_info, user_follows = db.getFollows(initial_user_id)
 
     nodes = []
     edges = []
 
+    att = dict()
+    att['tw_name'] = str(user_info['screen_name']);
+    att['img_url'] = str(user_info['profile_image']);
+    # att['total_follows'] = int(size(user_follows))
+    # Contar todos os usuarios que essa pessoa segue que sao de tal jeito
+    att['0'] = int(1)
+    att['1'] = int(1)
+    att['2'] = int(1)
+    att['3'] = int(1)
+    att['4'] = int(1)
+    att['5'] = int(1)
+    att['6'] = int(1)
+    att['7'] = int(1)
+    att['8'] = int(1)
+    att['9'] = int(1)
+
     # Creates the nodes
     main_user = create_node(user_info['id'], user_info['screen_name'],
-                            user_info['label'], 16)
+                            user_info['label'], 16, att)
+
     nodes.append(main_user)
     for user in user_follows:
-        # TEMOS UM PROBLEMA AQUI - screen_name
+        att = dict()
+        att['tw_name'] = str(user['screen_name']);
         nodes.append(create_node(user['id'], user['screen_name'],
-                                 user['label']))
-
+                                 user['label'], 6 ,att))
     # Creates the edges
     for node in nodes[1:]:
         edges.append(create_edge(nodes[0]['id'], node['id']))
+
+    for user in user_follows:
+        edges_aux = []
+        nodes_aux = []
+        user_info, user_follows2 = db.getFollows(user['id'])
+        for user2 in user_follows2:
+            att = dict()
+            att['tw_name'] = str(user['screen_name']);
+            node2 = create_node(user2['id'], user2['screen_name'],
+                                user2['label'], 6, att)
+
+            # Verifica para não entrar em loop
+            flag = 0
+            for node_aux in nodes_aux:
+                if node_aux['id'] == node2['id']:
+                    flag = 1
+            for node_aux in nodes:
+                if node_aux['id'] == node2['id']:
+                    flag = 1
+            if flag == 0:
+                nodes_aux.append(node2)
+
+        nodes = nodes + nodes_aux
+
+        for node in nodes_aux:
+            edges.append(create_edge(user_info['id'], node['id']))
+
 
     return nodes, edges
 
@@ -54,22 +96,113 @@ def initial_graph():
 def user_graph(user_id):
     # Creates a new object to deal with bd
     db = graph_dataset()
-
     user_info, user_follows = db.getFollows(user_id)
+
+    att = dict()
+    att['tw_name'] = str(user_info['screen_name']);
+    att['img_url'] = str(user_info['profile_image']);
+    # att['total_follows'] = int(size(user_follows))
+    # Contar todos os usuarios que essa pessoa segue que sao de tal jeito
+    att['0'] = int(1)
+    att['1'] = int(1)
+    att['2'] = int(1)
+    att['3'] = int(1)
+    att['4'] = int(1)
+    att['5'] = int(1)
+    att['6'] = int(1)
+    att['7'] = int(1)
+    att['8'] = int(1)
+    att['9'] = int(1)
+    # Creates the nodes
+    main_user = create_node(user_info['id'], user_info['screen_name'],
+                            user_info['label'], 16, att)
 
     nodes = []
     edges = []
-
-    # Creates the nodes
-    main_user = create_node(user_info['id'], user_info['screen_name'],
-                            user_info['label'], 16)
     nodes.append(main_user)
-    for user in user_follows:
-        # TEMOS UM PROBLEMA AQUI - screen_name
-        nodes.append(create_node(user['id'], user['screen_name'],
-                                 user['label']))
 
+
+    for user in user_follows:
+        att = dict()
+        att['tw_name'] = str(user['screen_name']);
+        nodes.append(create_node(user['id'], user['screen_name'],
+                                 user['label'], 6 ,att))
     # Creates the edges
+    for node in nodes[1:]:
+        edges.append(create_edge(nodes[0]['id'], node['id']))
+
+    # Adiciona os usuário que os usuario que ele segue seguem
+    for user in user_follows:
+        edges_aux = []
+        nodes_aux = []
+        user_info, user_follows2 = db.getFollows(user['id'])
+        for user2 in user_follows2:
+            att = dict()
+            att['tw_name'] = str(user['screen_name']);
+            node2 = create_node(user2['id'], user2['screen_name'],
+                                user2['label'], 6, att)
+
+            # Verifica para não entrar em loop
+            flag = 0
+            for node_aux in nodes_aux:
+                if node_aux['id'] == node2['id']:
+                    flag = 1
+            for node_aux in nodes:
+                if node_aux['id'] == node2['id']:
+                    flag = 1
+            if flag == 0:
+                nodes_aux.append(node2)
+
+        nodes = nodes + nodes_aux
+
+        for node in nodes_aux:
+            edges.append(create_edge(user_info['id'], node['id']))
+
+
+    return nodes, edges
+
+# Retorna um grafo contendo um usuário no centro e os tweets dele ao lado
+def user_tweet_graph(user_id):
+    nodes = []
+    edges = []
+
+    # Creates a new object to deal with bd
+    db = graph_dataset()
+    user_info, user_follows = db.getFollows(user_id)
+    tweets = db.getTweets(user_id)
+
+    att = dict()
+    att['tw_name'] = str(user_info['screen_name']);
+    att['img_url'] = str(user_info['profile_image']);
+    att['dcrp']= str(user_info['description']);
+    #att['total_follows'] = int(size(user_follows))
+    # Contar todos os usuarios que essa pessoa segue que sao de tal jeito
+    att['0'] = int(1)
+    att['1'] = int(1)
+    att['2'] = int(1)
+    att['3'] = int(1)
+    att['4'] = int(1)
+    att['5'] = int(1)
+    att['6'] = int(1)
+    att['7'] = int(1)
+    att['8'] = int(1)
+    att['9'] = int(1)
+
+    # Creates the primary node
+    main_user = create_node(user_info['id'], user_info['screen_name'],
+                            user_info['label'], 16, att)
+
+    nodes.append(main_user);
+
+    # now we create the tweets nodes and edges
+    i=0
+    for tweet in tweets:
+        # We should add att (the tweet text) to this
+        #att = dict()
+        #att['tw_name'] = str(user['screen_name']);
+        nodes.append(create_node(i, str(i), tweet['label'], 3))
+        i = i + 1
+
     for node in nodes[1:]:
         edges.append(create_edge(nodes[0]['id'], node['id']))
 
@@ -77,7 +210,7 @@ def user_graph(user_id):
 
 
 # Creates a node containing the information below
-def create_node(id, label, depression, size = 10, att = {}):
+def create_node(id, label, depression, size = 6, att = {}):
     node = dict()
 
     group = int(depression*10)
@@ -101,76 +234,3 @@ def create_edge(fr, to, size = 1, att = {}):
     edge['attributes'] = att
 
     return edge
-
-
-
-'''
-    The functions below are just for generating simulated graphs
-'''
-
-# generates n_nodes for a graph
-# returns a list of dict containing nodes, and a node is:
-# node:
-# {
-#   "color": rgb()
-#   "group": a int,
-#   "id": an id,
-#   "label": a name
-#   "attributes": {...}
-#   "size": a size (int)
-# }
-def generate_nodes(n_id ,n_nodes):
-    nodes = []
-    for i in range(n_nodes):
-        node = dict()
-        color = dict()
-        highlight = dict()
-        hover = dict()
-
-        # Creating node
-        group = i%10
-        node['id'] = str(i)
-        node['label'] = str(i)
-        if(n_id == i):
-            node['size'] = 15
-        else:
-            node['size'] = 8
-        node['group'] = group
-        node['attributes'] = {}
-
-        # Defining the color based on the group
-        node['color'] = colors[group]
-
-        #append the node on the list
-        nodes.append(node)
-    return nodes
-
-
-# generates "random" edges for a n_nodes
-# returns a list of edges:
-# edge {
-#   source: n_id
-#   target: node
-#   size: a size (int)
-#   attributes: any atributes wanted (must be a dict)
-# }
-def generate_edges(n_id, n_nodes):
-    edges = []
-    # conect all the nodes on the centered (n_id)
-    for j in range(n_nodes):
-        edge = dict()
-        if j != 0:
-            edge['source'] = str(n_id)
-            if j != n_id:
-                edge['target'] = str(j)
-                edge['size'] = 1
-                edge['attributes'] = {}
-                edges.append(edge)
-
-    return edges
-
-# generates a graph with n_nodes
-def generate_graph(n_id, n_nodes):
-    nodes = generate_nodes(n_id, n_nodes)
-    edges = generate_edges(n_id, n_nodes)
-    return nodes, edges

@@ -29,7 +29,7 @@ var options = {
     },
     size: 10,
     font: {
-      size: 32,
+      size: 10,
       color: '#000000'
     },
     borderWidth: 0.6
@@ -61,7 +61,7 @@ var options = {
     },
     barnesHut: {
       gravitationalConstant: -100,
-      springConstant: 0.002,
+      springConstant: 0.001,
       springLength: 150
     }
   }
@@ -71,11 +71,16 @@ var options = {
 network = new vis.Network(container, data, options);
 
 network.on('selectNode', function (params) {
+  console.log()
   if (params.nodes.length > 0) {
     // get the data from selected node
     data = nodes.get(params.nodes[0]);
-    nodeContent.innerHTML = JSON.stringify(data, undefined, 3);
   }
+
+  attributes = data['attributes']
+  console.log(attributes)
+  create_element(attributes)
+  user_img(attributes['img_url'])
 })
 
 network.on('deselectNode', function (params) {
@@ -83,14 +88,29 @@ network.on('deselectNode', function (params) {
 })
 
 network.on('doubleClick', function (params) {
-  if(mode === "friends")
-  console.log(params['nodes'])
-  loadJSON("/graph/data/"+params['nodes'], getNodesAndEdges, function(err) {
-    console.log('Error on loading json: ' + err);
-  });
-  attributes = data['atrribute']
+  if(nodes.get(params.nodes[0])['size'] == 16){
+    if(mode == "friends"){
+      mode = "tweets"
+      loadJSON("/graph/data/tweets/"+params['nodes'], getNodesAndEdges, function(err) {
+        console.log('Error on loading json: ' + err);
+      });
+    }else{
+      mode = "friends"
+      loadJSON("/graph/data/follows/"+params['nodes'], getNodesAndEdges, function(err) {
+        console.log('Error on loading json: ' + err);
+      });
+    }
+  }else{
+    loadJSON("/graph/data/follows/"+params['nodes'], getNodesAndEdges, function(err) {
+      console.log('Error on loading json: ' + err);
+    });
+  }
+
+  /*
+  attributes = data['attributes']
   console.log(attributes)
-  user_img(attributes['img_url'])
+
+  */
 })
 
 
