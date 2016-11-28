@@ -1,0 +1,27 @@
+Instruções para criar o banco de dados a partir dos arquivos deste diretório
+
+Autores: Lucas Alves Racoci - RA 156331
+		 Luiz Fernando Rodrigues da Fonseca - RA 156475
+
+Depois que os tweets foram baixados no MongoDB, os seguintes scripts devem ser executados na seguinte ordem:
+	Para criar o primeiro Grafo:
+	1 - python mongo2neo.py
+	2 - python mongoUsers2neo.py
+	3 - python statesInitialization.py
+
+	Para criar o segundo Grafo:
+	1 - python mongo2neoglobal.py
+	2 - python mongoUsers2neoglobal.py
+
+	Depois, são criados os índices e as médias dos sentimentos dos tweets por usuário são calculadas:
+	1 - python index.py
+	2 - python average.py
+
+As dependências necessárias para rodar os arquivos são:
+python 2
+numpy
+pymongo
+py2neo
+geopy
+
+Devido aos bancos serem muito grandes, foram colocadas instâncias muito pequena deles.
