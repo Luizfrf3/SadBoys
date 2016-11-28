@@ -1,6 +1,13 @@
 #!/usr/bin/python2
 # -*- coding: utf-8 -*-
-import random, json
+# Module to deal with the graph data
+# Authors: Henrique
+#          Thiago
+
+import random, json, sys
+
+sys.path.insert(0, '../')
+from BD.graph_dataset import graph_dataset
 
 # These are the colors for the nodes (we can change then)
 # i thought about using the groups to add colors to the nodes
@@ -17,18 +24,68 @@ colors = {
     9: "rgb(247, 65, 0)",
 }
 
-## The functions below are just for generating simulated graphs ##
+def initial_graph():
+    # Creates a new object to deal with bd
+    db = graph_dataset()
+
+    initial_user_id = db.getUserID('justinbieber')
+    user_info, user_follows = db.getFollows(initial_user_id)
+
+    nodes = []
+    edges = []
+    # to be continued
+    main_user = create_node(user_info['id'], user_info['screen_name'],
+                            user_info['label'], 16)
+    nodes.append(main_user)
+    for user in user_folows:
+        # TEMOS UM PROBLEMA AQUI
+        nodes.append(create_node(user['id'], user['screen_name'],
+                                 user['label']))
+    # needs to turn this node into
+
+
+# Creates a node containing the information below
+def create_node(id, label, depression, size = 10, att = {}):
+    node = dict()
+
+    group = depression
+    node['id'] = str(id)
+    node['label'] = str(label)
+    node['size'] = int(size)
+    node['group'] = group
+    node['attributes'] = att
+    # Defining the color based on the group
+    node['color'] = colors[group]
+
+    return node
+
+# Creates an edge from -> to
+def create_edge(fr, to, size = 1, att = {}):
+    edge = dict()
+
+    edge['source'] = str(fr)
+    edge['target'] = str(to)
+    edge['size'] = int(1)
+    edge['attributes'] = att
+
+    return edge
+
+
+
+'''
+    The functions below are just for generating simulated graphs
+'''
 
 # generates n_nodes for a graph
 # returns a list of dict containing nodes, and a node is:
 # node:
 # {
-# "color": rgb()
-# "group": a int,
-# "id": an id,
-# "label": a name
-# "attributes": {...}
-# "size": a size (int)
+#   "color": rgb()
+#   "group": a int,
+#   "id": an id,
+#   "label": a name
+#   "attributes": {...}
+#   "size": a size (int)
 # }
 def generate_nodes(n_id ,n_nodes):
     nodes = []
