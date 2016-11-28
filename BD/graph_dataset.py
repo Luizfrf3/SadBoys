@@ -42,6 +42,6 @@ class graph_dataset:
 		query = "match (u1:userglobal)-[:followsglobal]->(u2:userglobal) where u1.id = '%s' return u2.id as id, u2.label as label" % (user_id)
 
 		cursor = self.g.run(query)
-		followers = cursor.data()
+		follows = cursor.data()
 
-		return data, followers
+		return data, follows
