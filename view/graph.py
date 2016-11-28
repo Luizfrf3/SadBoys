@@ -23,7 +23,6 @@ colors = {
     9: "rgb(247, 65, 0)",
 }
 
-
 def initial_graph():
     # Creates a new object to deal with bd
     db = graph_dataset()
@@ -36,7 +35,7 @@ def initial_graph():
     att = dict()
     att['tw_name'] = str(user_info['screen_name']);
     att['img_url'] = str(user_info['profile_image']);
-    # att['total_follows'] = int(size(user_follows))
+    att['total_follows'] = int(len(user_follows))
     # Contar todos os usuarios que essa pessoa segue que sao de tal jeito
     att['0'] = int(1)
     att['1'] = int(1)
@@ -101,7 +100,7 @@ def user_graph(user_id):
     att = dict()
     att['tw_name'] = str(user_info['screen_name']);
     att['img_url'] = str(user_info['profile_image']);
-    # att['total_follows'] = int(size(user_follows))
+    att['total_follows'] = int(len(user_follows))
     # Contar todos os usuarios que essa pessoa segue que sao de tal jeito
     att['0'] = int(1)
     att['1'] = int(1)

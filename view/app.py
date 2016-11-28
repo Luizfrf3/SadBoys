@@ -1,18 +1,28 @@
 #!/usr/bin/python2
 # -*- coding: utf-8 -*-
+import sys
 
 from flask import Flask
 from flask import render_template
-from flask import jsonify, json, Response
+from flask import jsonify, json, Response, request
 
 from graph import initial_graph, user_graph, user_tweet_graph
 from map import states_heatmap, tweets_heatmap
 
+sys.path.insert(0, '../')
+import sent_analysis.apply_demo as apde
+
+
 app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+@app.route('/', methods = ['GET', 'POST'])
+def view_analysis():
+    if request.method == 'POST':
+        av = apde.analyse(str(request.form['search']))
+        print(str(av))
+        return render_template("index.html", av = av)
+    if request.method == 'GET':
+        return render_template("index.html")
 
 @app.route("/graph")
 def graph():
