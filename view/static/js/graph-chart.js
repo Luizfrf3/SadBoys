@@ -74,7 +74,7 @@ network.on('selectNode', function (params) {
   if (params.nodes.length > 0) {
     data = nodes.get(params.nodes[0]);
     attributes = data['attributes']
-    nodeContent.innerHTML = JSON.stringify({} , undefined, 2)
+    nodeContent.innerHTML = JSON.stringify(attributes , undefined, 2)
   }
 })
 
