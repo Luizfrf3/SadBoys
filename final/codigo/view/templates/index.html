@@ -1,0 +1,73 @@
+{% extends "header.html" %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form action="/" method="POST">
+            <div class="input-group">
+                <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">Analyze</button>
+                </span>
+                <input class="form-control text-left" type="analyze" name="search" placeholder="Digite uma frase para analizar seu sentimento">
+            </div>
+        </form>
+    </div>
+    {% if av %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    {% if av > 0.6 %}
+                    <h2>
+                    <div align="center" class="alert alert-success">
+                        <i>"{{ search }}"</i>
+                    {% else %}
+                        {% if av < 0.4 %}
+                        <div align="center" class="alert alert-danger">
+                            <i>"{{ search }}"</i>
+                        {% else %}
+                        <div align="center" class="alert alert-warning">
+                            <i>"{{ search }}"</i>
+                        {% endif %}
+                    {% endif %}
+                    </div>
+                    </h2>
+                    <h1 align="center">{{ av }}</h1>
+                    <h3>
+                        <b>Understanding your score:</b>
+                    </h3>
+                    <p>
+                        The number you see there is a gradient of happines, where:
+                    </p>
+                    <div align="center">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="danger">Total Sadness</td>
+                                <td class="warning">Neutral</td>
+                                <td class="success">Total Happiness</td>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td class="danger">
+                                0
+                            </td>
+                            <td class="warning">
+                                0.5
+                            </td>
+                            <td class="success">
+                                1
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                    <p>
+                        keep in mind that the model might not know the existance of some words, resulting in wrong predictions of the sentiment.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    {% endif %}
+{% endblock %}

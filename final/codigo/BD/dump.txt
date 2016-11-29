@@ -1,0 +1,30 @@
+Instruções para criar o banco de dados a partir dos arquivos deste diretório
+
+Autores: Lucas Alves Racoci - RA 156331
+		 Luiz Fernando Rodrigues da Fonseca - RA 156475
+
+Depois que os tweets foram baixados no MongoDB, os seguintes scripts devem ser executados na seguinte ordem:
+	Para criar o primeiro Grafo:
+	1 - python mongo2neo.py
+	2 - python mongoUsers2neo.py
+	3 - python statesInitialization.py
+
+	Para criar o segundo Grafo:
+	1 - python mongo2neoglobal.py
+	2 - python mongoUsers2neoglobal.py
+
+	Depois, são criados os índices e as médias dos sentimentos dos tweets por usuário são calculadas:
+	1 - python index.py
+	2 - python average.py
+
+As dependências necessárias para rodar os arquivos são:
+python 2
+numpy
+pymongo
+py2neo
+geopy
+
+Devido aos bancos serem muito grandes, não foi possível colocar os bancos de dados aqui, tanto o MongoDB quanto o Neo4J.
+Porém, o banco de grafos já construído foi disponibilizado no link abaixo para que testes com o navegador pudessem ser feitos:
+https://drive.google.com/drive/u/1/folders/0B-E0rzbi0pmyczBlWjJjRjRMcEE
+Para rodar o banco, vá para a pasta neo4j-community-3.0.7/bin após descompactar o arquivo e execute ./neo4j console
