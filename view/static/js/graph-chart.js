@@ -71,16 +71,11 @@ var options = {
 network = new vis.Network(container, data, options);
 
 network.on('selectNode', function (params) {
-  console.log()
   if (params.nodes.length > 0) {
-    // get the data from selected node
     data = nodes.get(params.nodes[0]);
+    attributes = data['attributes']
+    nodeContent.innerHTML = JSON.stringify({} , undefined, 2)
   }
-
-  attributes = data['attributes']
-  console.log(attributes)
-  create_element(attributes)
-  user_img(attributes['img_url'])
 })
 
 network.on('deselectNode', function (params) {
