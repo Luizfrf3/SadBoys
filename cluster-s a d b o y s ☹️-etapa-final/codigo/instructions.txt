@@ -1,0 +1,8 @@
+Para rodar o código e mostrar os resultados no navegador de internet, é preciso inicializar o banco Neo4J disponibilizado no link a seguir:
+https://drive.google.com/drive/u/1/folders/0B-E0rzbi0pmyczBlWjJjRjRMcEE
+Para rodar o banco, vá para a pasta neo4j-community-3.0.7/bin após descompactar o arquivo e execute ./neo4j console
+
+Para rodar o sistema, é preciso instalar as dependências do python no arquivo dependencies.txt e usar o python 2. Então rode o seguinte comando no terminal:
+python app.py
+
+Depois é só abrir o navegador em: 0.0.0.0:5000
