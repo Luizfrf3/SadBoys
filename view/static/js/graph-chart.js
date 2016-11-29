@@ -4,7 +4,7 @@ var dataSet;
 var mode = "friends"
 
 var container = document.getElementById('sadboysgraph');
-var nodeContent = document.getElementById('nodeContent');
+var nodeCont = document.getElementById('nodeContent');
 
 /* get the data */
 var data = {
@@ -74,12 +74,12 @@ network.on('selectNode', function (params) {
   if (params.nodes.length > 0) {
     data = nodes.get(params.nodes[0]);
     attributes = data['attributes']
-    nodeContent.innerHTML = JSON.stringify(attributes , undefined, 2)
+    nodeCont.innerHTML = JSON.stringify(data , undefined, 2)
   }
 })
 
 network.on('deselectNode', function (params) {
-  nodeContent.innerHTML = 'Nenhum nó selecionado';
+  nodeCont.innerHTML = 'Nenhum nó selecionado';
 })
 
 network.on('doubleClick', function (params) {
