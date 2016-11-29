@@ -27,7 +27,7 @@
             </li>
             {% for state in states %}
             <li>
-                <a href="#{{ state['name'] }}" data-toggle="tab">
+                <a href="#{{ state['id_help'] -}}" data-toggle="tab">
                     {{ state['name'] }}
                 </a>
             </li>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             {% for state in states %}
-            <div class="tab-pane" id="{{ state['name'] }}">
+            <div class="tab-pane" id="{{ state['id_help'] -}}">
                 <div class="col-md-10 col-md-offset-1">
                     <h2 align="center">{{ state['name'] }}</h2>
                     <table class="table table-bordered">

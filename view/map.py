@@ -124,6 +124,7 @@ def create_state_rates(name, avg_label, suicide_rate, depressive_percentage, sui
     state_rates = dict()
 
     state_rates['name'] = str(name)
+    state_rates['id_help'] = str(name.replace(" ", ""))
     state_rates['avg_label'] = float(avg_label)
     state_rates['suicide_rate'] = float(suicide_rate)
     state_rates['depressive_percentage'] = float(depressive_percentage)
