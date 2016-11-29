@@ -4,6 +4,7 @@
 # Authors: Henrique
 #          Thiago
 import random, json, sys
+from collections import defaultdict
 
 sys.path.insert(0, '../')
 from BD.graph_dataset import graph_dataset
@@ -38,17 +39,7 @@ def initial_graph():
     att['tw_name'] = str(user_info['screen_name']);
     att['img_url'] = str(user_info['profile_image']);
     att['total_follows'] = int(len(user_follows))
-    # Contar todos os usuarios que essa pessoa segue que sao de tal jeito
-    att['0'] = int(1)
-    att['1'] = int(1)
-    att['2'] = int(1)
-    att['3'] = int(1)
-    att['4'] = int(1)
-    att['5'] = int(1)
-    att['6'] = int(1)
-    att['7'] = int(1)
-    att['8'] = int(1)
-    att['9'] = int(1)
+    att['avg'] = avg(user_follows)
 
     # Creates the nodes
     main_user = create_node(user_info['id'], user_info['screen_name'],
@@ -103,17 +94,8 @@ def user_graph(user_id):
     att['tw_name'] = str(user_info['screen_name']);
     att['img_url'] = str(user_info['profile_image']);
     att['total_follows'] = int(len(user_follows))
-    # Contar todos os usuarios que essa pessoa segue que sao de tal jeito
-    att['0'] = int(1)
-    att['1'] = int(1)
-    att['2'] = int(1)
-    att['3'] = int(1)
-    att['4'] = int(1)
-    att['5'] = int(1)
-    att['6'] = int(1)
-    att['7'] = int(1)
-    att['8'] = int(1)
-    att['9'] = int(1)
+    att['avg'] = avg(user_follows)
+
     # Creates the nodes
     main_user = create_node(user_info['id'], user_info['screen_name'],
                             user_info['label'], 16, att)
@@ -176,18 +158,9 @@ def user_tweet_graph(user_id):
     att['tw_name'] = str(user_info['screen_name']);
     att['img_url'] = str(user_info['profile_image']);
     att['dcrp']= str(user_info['description']);
-    #att['total_follows'] = int(size(user_follows))
+    # att['total_follows'] = int(user_follows)
     # Contar todos os usuarios que essa pessoa segue que sao de tal jeito
-    att['0'] = int(1)
-    att['1'] = int(1)
-    att['2'] = int(1)
-    att['3'] = int(1)
-    att['4'] = int(1)
-    att['5'] = int(1)
-    att['6'] = int(1)
-    att['7'] = int(1)
-    att['8'] = int(1)
-    att['9'] = int(1)
+
 
     # Creates the primary node
     main_user = create_node(user_info['id'], user_info['screen_name'],
@@ -261,3 +234,35 @@ def coloring(number):
         return 10
     else:
         return 11
+
+
+def avg(follows):
+    att = defaultdict(int)
+    8
+    for person in follows:
+        if person['label'] < 0.375:
+            att['0'] = att.get('0', 0 ) + 1
+        elif 0.375 <= person['label'] < 0.425:
+            att['1'] = att.get('1', 0 ) + 1
+        elif 0.425 <= person['label'] < 0.45:
+            att['2'] = att.get('2', 0 ) + 1
+        elif 0.45 <= person['label'] < 0.475:
+            att['3'] = att.get('3', 0 ) + 1
+        elif 0.475 <= person['label'] < 0.5:
+            att['4'] = att.get('4', 0 ) + 1
+        elif 0.5 <= person['label'] < 0.525:
+            att['5'] = att.get('5', 0 ) + 1
+        elif 0.525 <= person['label'] < 0.55:
+            att['6'] = att.get('6', 0 ) + 1
+        elif 0.55 <= person['label'] < 0.575:
+            att['7'] = att.get('7', 0 ) + 1
+        elif 0.575 <= person['label'] < 0.6:
+            att['8'] = att.get('8', 0 ) + 1
+        elif 0.6 <= person['label'] < 0.625:
+            att['9'] = att.get('9', 0 ) + 1
+        elif 0.625 <= person['label'] < 0.65:
+            att['10'] = att.get('10', 0 ) + 1
+        else:
+            att['11'] = att.get('10', 0 ) + 1
+
+    return att
