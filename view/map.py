@@ -71,7 +71,15 @@ def states_heatmap():
                                          s_rates['suicide_rate'], s_rates['depressive_percentage'],
                                          s_rates['suicide_percentage']))
 
+    return states
 
+
+def states_heatmap_complete():
+    db = heatmap_dataset()
+    states = []
+    for state in state_names:
+        s_rates = db.getStateData(state)
+        states.append(s_rates)
 
     return states
 

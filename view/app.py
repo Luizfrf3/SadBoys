@@ -7,7 +7,7 @@ from flask import render_template
 from flask import jsonify, json, Response, request
 
 from graph import initial_graph, user_graph, user_tweet_graph
-from map import states_heatmap, tweets_heatmap, tweets_heatmap_happy, tweets_heatmap_sad
+from map import states_heatmap, states_heatmap_complete, tweets_heatmap, tweets_heatmap_happy, tweets_heatmap_sad
 
 sys.path.insert(0, '../')
 import sent_analysis.apply_demo as apde
@@ -57,6 +57,12 @@ def map_happy():
 @app.route("/map-sad")
 def map_sad():
     return render_template("map-sad.html")
+
+@app.route("/map-statistics")
+def map_statistics():
+    states = states_heatmap()
+    print states
+    return render_template("map-statistics.html", states=states)
 
 @app.route("/map/data/states")
 def map_states():

@@ -11,16 +11,18 @@ from BD.graph_dataset import graph_dataset
 # These are the colors for the nodes (we can change then)
 # i thought about using the groups to add colors to the nodes
 colors = {
-    0: "rgb(0, 28, 247)",
-    1: "rgb(0, 94, 247)",
-    3: "rgb(0, 140, 247)",
-    2: "rgb(0, 164, 247)",
-    4: "rgb(0, 189, 247)",
-    5: "rgb(247, 247, 0)",
-    6: "rgb(247, 197, 0)",
-    7: "rgb(247, 156, 0)",
-    8: "rgb(247, 119, 0)",
-    9: "rgb(247, 65, 0)",
+    0:  "rgb(57, 15, 235)",
+    1:  "rgb(14, 51, 236)",
+    2:  "rgb(14, 131, 238)",
+    3:  "rgb(13, 212, 240)",
+    4:  "rgb(13, 241, 188)",
+    5:  "rgb(12, 245, 25)",
+    6:  "rgb(167, 248, 11)",
+    7:  "rgb(249, 246, 11)",
+    8:  "rgb(251, 162, 10)",
+    9:  "rgb(253, 77, 10)",
+    10:  "rgb(255, 9, 30)",
+    11: "rgb(172, 12, 115)"
 }
 
 def initial_graph():
@@ -212,7 +214,7 @@ def user_tweet_graph(user_id):
 def create_node(id, label, depression, size = 6, att = {}):
     node = dict()
 
-    group = int(depression*10)
+    group = coloring(depression)
     node['id'] = str(id)
     node['label'] = str(label)
     node['size'] = int(size)
@@ -227,9 +229,35 @@ def create_node(id, label, depression, size = 6, att = {}):
 def create_edge(fr, to, size = 1, att = {}):
     edge = dict()
 
-    edge['source'] = str(fr)
-    edge['target'] = str(to)
+    edge['source'] = str(to)
+    edge['target'] = str(fr)
     edge['size'] = int(1)
     edge['attributes'] = att
 
     return edge
+
+def coloring(number):
+    if number < 0.375:
+        return 0
+    elif 0.375 <= number < 0.425:
+        return 1
+    elif 0.425 <= number < 0.45:
+        return 2
+    elif 0.45 <= number < 0.475:
+        return 3
+    elif 0.475 <= number < 0.5:
+        return 4
+    elif 0.5 <= number < 0.525:
+        return 5
+    elif 0.525 <= number < 0.55:
+        return 6
+    elif 0.55 <= number < 0.575:
+        return 7
+    elif 0.575 <= number < 0.6:
+        return 8
+    elif 0.6 <= number < 0.625:
+        return 9
+    elif 0.625 <= number < 0.65:
+        return 10
+    else:
+        return 11
