@@ -1,6 +1,7 @@
 '''
     Project: Sentiment Analysis Classifier
         Rate a tweets as a sentiment, ranging from 0 to 1.
+        Based on comunications with tweet Database
 
     Authors: Isadora Sophia
              Matheus Diamantino
@@ -21,7 +22,7 @@ import sys
 import tokenizer
 
 sys.path.insert(0, '../')
-from BD import tw_dataset
+from BD.tw_dataset import tw_dataset
 
 def main():
     ## recover model
@@ -33,11 +34,13 @@ def main():
     maxlen = 70   # cut texts after this number of words (among top max_features most common words)
     batch_size = 32
 
-    db = tw_dataset(path="", batch_size=batch_size)
+    c = 0
+
+    db = tw_dataset(batch_size=batch_size)
 
     while not db.finished():
         ## get batch
-        X = get_next_batch()
+        X = db.get_next_batch()
 
         ## preprocess text
         tk = tokenizer.Tokenizer(nb_words=max_features)
@@ -59,6 +62,10 @@ def main():
 
         ## finally, update db
         db.update(labels)
+        c += 1
+
+        if c % 1000 is 0:
+            print 'Checkpoint: ' + str(c*32) + ' iterations.'
 
 if __name__ == "__main__":
     main()

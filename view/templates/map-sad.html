@@ -1,0 +1,89 @@
+{% extends "header.html" %}
+
+{% block header %}
+    <title>Heatmap</title>
+    <link rel="stylesheet" href="static/css/map.css" type="text/css"/>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li><a href="/map">All the nodes</a></li>
+            <li><a href="/map-happy">Happy Nodes</a></li>
+            <li class="active"><a href="/map-sad">Sad Nodes</a></li>
+            <li><a href="/map-statistics">Statistics</a></li>
+        </ul>
+        <div class="col-md-10 col-md-offset-1">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
+
+<script src="static/js/map-states.js" type="text/javascript"></script>
+<script>
+    var map, heatmap;
+
+    // Center on the US, and zoom apropriate to show the entire US map.
+    function initMap() {
+        $.getJSON("/map/data/states", function(json1) {
+                $.getJSON("/map/data/tweets/sad", function(json2) {
+                realInitMap(json1, json2);
+            });
+        });
+    }
+
+    function realInitMap(statesJSON, tweetsJSON) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: {lat: 39, lng: -95},
+            mapTypeId: google.maps.MapTypeId.TERRAIN
+        });
+
+        for (var state in statemap) {
+            for(var stateInfo in statesJSON){
+                if(statemap[state]['name'] == statesJSON[stateInfo]['name']){
+                    // Add the circle for this state to the map.
+                    var stateCircle = new google.maps.Circle({
+                        strokeColor: '#0000FF',
+                        strokeOpacity: 0.35,
+                        strokeWeight: 1,
+                        fillColor: '#0000FF',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: statemap[state].center,
+                        radius: ((statesJSON[stateInfo]["depressive_percentage"] + statesJSON[stateInfo]["suicide_rate"])*10000 - 80000)
+                    });
+                }
+            }
+        }
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+            data: tweets_point(tweetsJSON),
+            map: map
+        });
+
+        heatmap.set('radius', heatmap.get('radius') ? null : 20);
+    }
+
+    function tweets_point(tweetsJSON) {
+        var points = [];
+
+        for(var tweet in tweetsJSON){
+            points.push(
+                {
+                    location: new google.maps.LatLng((tweetsJSON[tweet]["lat"]), tweetsJSON[tweet]["long"]),
+                    weight: 1000*(tweetsJSON[tweet]["label"])
+                }
+            );
+        }
+        return points;
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAv0u-jKOeQ0H7vJyFFhq6At3_AVeZr0bM&signed_in=true&libraries=visualization&callback=initMap">
+</script>
+
+{% endblock %}

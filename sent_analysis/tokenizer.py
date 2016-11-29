@@ -10,6 +10,8 @@ from __future__ import division
 import string
 import numpy as np
 
+import re
+
 import keras
 from keras.datasets import imdb
 from keras.preprocessing import text
@@ -52,7 +54,14 @@ class Tokenizer(object):
         if self.lower:
             text = text.lower()
 
-        text = text.translate(string.maketrans(self.filters, self.split*len(self.filters)))
+        # substitute all "n't"s for "not"s
+        text = re.sub("n't", " not", text)
+
+        # transform utf8 into ascii valid texts
+        text = re.sub("[^0-9a-zA-Z _.,]", "", text)
+
+        text = str(text).translate(string.maketrans(self.filters, self.split*len(self.filters)))
+
         seq = text.split(self.split)
 
         return [_f for _f in seq if _f]

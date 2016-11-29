@@ -1,7 +1,11 @@
-import tw_dataset as db
+import heatmap_dataset as db
 
-banco = db.tw_dataset(10)
+banco = db.heatmap_dataset()
 
-tweets = banco.get_next_batch()
+data = banco.getStateData('New York')
 
-print tweets
+print data
+
+tweets = banco.getTweets()
+
+print len(tweets)
