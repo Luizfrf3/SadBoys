@@ -171,10 +171,15 @@ def user_tweet_graph(user_id):
     # now we create the tweets nodes and edges
     i=0
     for tweet in tweets:
+        att = dict()
+        att['feeling'] = tweet['label']
+        att['text'] = tweet['text']
+
+        print(tweet)
         # We should add att (the tweet text) to this
         #att = dict()
         #att['tw_name'] = str(user['screen_name']);
-        nodes.append(create_node(i, str(i), tweet['label'], 3))
+        nodes.append(create_node(i, str(i), tweet['label'], 3, att))
         i = i + 1
 
     for node in nodes[1:]:
