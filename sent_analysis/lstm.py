@@ -54,7 +54,6 @@ def main():
     model.add(Flatten())
     model.add(Dense(250, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
-    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     ## LSTM approach
     # model.add(LSTM(output_dim=dim, dropout_W=drop_rate, dropout_U=drop_rate))
