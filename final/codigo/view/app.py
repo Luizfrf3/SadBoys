@@ -61,7 +61,6 @@ def map_sad():
 @app.route("/map-statistics")
 def map_statistics():
     states = states_heatmap()
-    print states
     return render_template("map-statistics.html", states=states)
 
 @app.route("/map/data/states")
