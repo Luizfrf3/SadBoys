@@ -53,6 +53,9 @@
         $('#userIMG').attr('src', url);
     }
     function create_element(user_att){
+        var parent = document.getElementById("nodeContent");
+        var child = document.getElementById("nodeContent");
+        parent.removeChild(child);
         for(var el in user_att){
             var node = document.createElement("li");
             var textnode = document.createTextNode(user_att[el]);

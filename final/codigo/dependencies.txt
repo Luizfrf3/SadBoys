@@ -1,7 +1,0 @@
-flask
-py2neo
-numpy
-pyyaml
-keras
-tensorflow
-h5py

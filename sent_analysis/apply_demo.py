@@ -26,7 +26,7 @@ from BD.tw_dataset import tw_dataset
 
 def analyse(text):
     ## recover model
-    model_name = "data/SA.h5"
+    model_name = "../sent_analysis/data/SA.h5"
     model = load_model(model_name)
 
     ## parameters 
