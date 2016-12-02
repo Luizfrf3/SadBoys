@@ -1,8 +1,18 @@
-Para rodar o código e mostrar os resultados no navegador de internet, é preciso inicializar o banco Neo4J disponibilizado no link a seguir:
-https://drive.google.com/drive/u/1/folders/0B-E0rzbi0pmyczBlWjJjRjRMcEE
-Para rodar o banco, vá para a pasta neo4j-community-3.0.7/bin após descompactar o arquivo e execute ./neo4j console
+# Como rodar o projeto
+## Banco de Dados
+Para rodar o projeto é preciso instalar o banco Neo4J na máquina (https://neo4j.com/download/)
+Depois de instalado, faça o download do banco de dados abaixo:
+ - https://drive.google.com/drive/u/1/folders/0B-E0rzbi0pmyczBlWjJjRjRMcEE
+1 . Descompacte o arquivo (tar xf bd_neo4j.tar.xz)
+2. Vá para a pasta neo4j-community-3.0.7/bin
+3. Execute: ./neo4j console
 
-Para rodar o sistema, é preciso instalar as dependências do python no arquivo dependencies.txt e usar o python 2. Então rode o seguinte comando no terminal:
+## View
+Para rodar o sistema de visualização é preciso ter o python2 instalado e instalar as dependências que estão no arquivo dependencies.txt (pip install -r dependencies.txt).
+Com o banco de dados ainda aberto, rode o seguinte comando no terminal:
 python app.py
 
-Depois é só abrir o navegador em: 0.0.0.0:5000
+Para visualizar , abra o navegador em: 0.0.0.0:5000
+
+
+# Código do projeto também está em https://github.com/Luizfrf3/SadBoys
